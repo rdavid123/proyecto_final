@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeLeaf.org">
+<head th:fragment="head">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- fonts -->
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap"
+		rel="stylesheet">
+	<!-- css -->
+	<link th:href='@{/css/global_styles.css}' rel='stylesheet'>
+	<link th:href='@{/css/style_admin.css}' rel='stylesheet'>
+	<link rel="stylesheet" type="text/css" href="/css/notification.css">
+	<!-- icons -->
+	<script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+   
+	<!-- title -->
+	<title th:text="${title}"></title>
+</head>
+<body>
+	<!-- sidebar -->
+	<nav th:fragment="sidebar" class="sidebar close" id="sidebar-admin">
+		<header>
+			<div class="image-text">
+				<span class="image">
+					<img th:src="${user.avatar}" alt="">			
+				</span>
+				<div class="text header-text">
+					<span class="name" th:text="${user.nombre + ' ' + user.apellido}"></span>
+					<span class="email" th:text="${user.correo}"></span>
+				</div>
+
+				<i class="fas fa-chevron-circle-right toggle"></i>
+			</div>
+		</header>
+		<!-- menu - sidebar -->
+		<div class="menu-bar">
+			<div class="menu">
+				<li class="search-box">
+					<i class="fas fa-search icon"></i>
+					<input type="text" placeholder="search...">
+				</li>
+				<ul class="menu-links">
+					<li class="nav-link">
+						<a href="">
+							<i class="fas fa-home icon"></i>
+							<span class="text nav-text">Home</span>
+						</a>
+					</li>
+					<li class="nav-link">
+						<a href="">
+							<i class="fas fa-box icon"></i>
+							<span class="text nav-text">Pedidos</span>
+						</a>
+					</li>
+					<li class="nav-link">
+						<a href="">
+							<i class="fas fa-users icon"></i>
+							<span class="text nav-text">Clientes</span>
+						</a>
+					</li>
+					<li class="nav-link">
+						<a>
+							<i class="fas fa-users-cog icon"></i>
+							<span class="text nav-text">Empleados</span>
+						</a>
+					</li>
+					<li class="nav-link">
+						<a>		
+							<i class="fas fa-truck icon"></i>
+							<span class="text nav-text">Repartidores</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+
+			<div class="bottom-content">
+				<hr>
+				<li class="">
+					<a th:href="@{/logout}">
+						<i class="fas fa-sign-out-alt icon"></i>
+						<span class="text nav-text">Logout</span>
+					</a>
+				</li>
+				<li class="mode">
+					<div class="moon-sun">
+						<i class="fas fa-moon icon moon"></i>
+						<i class="fas fa-sun icon sun"></i>
+					</div>
+					<span class="mode-text text">Dark mode</span>
+					<div class="toggle-switch">
+						<div class="switch"></div>
+					</div>
+				</li>
+			</div>
+		</div>
+	</nav>
+	
+	<div th:fragment="footer">
+		<script th:src="@{/js/admin/darkModeAdmin.js}"></script>
+	</div>
+</body>

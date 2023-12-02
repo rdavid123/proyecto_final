@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="empleado/layout_empleado :: head">
+</head>
+<body>
+	<div th:replace="empleado/layout_empleado :: navbar"></div>
+
+	<section class="dashboard">
+		<!-- TopBar -->
+		<div th:replace="empleado/layout_empleado :: top"></div>
+		<!-- End TopBar -->
+
+		<!-- content -->
+		<div class="dash-content px-3">
+			<div class="card mt-3">
+				<div class="card-body">
+					<div class="overview">
+						<div class="title">
+							<i class="uil uil-tachometer-fast-alt"></i>
+							<span class="text">Pedidos</span>
+						</div>
+						<div class="boxes">
+							<div class="box box1">
+								<i class="fa-solid fa-circle-pause"></i>
+								<span class="text">En espera</span>
+								<span class="number" th:text="${pendientes_size}"></span>
+							</div>
+							<div class="box box2">
+								<i class="fa-solid fa-hourglass-start"></i>
+								<span class="text">En proceso</span>
+								<span class="number" th:text="${proceso_size}"></span>
+							</div>
+							<div class="box box3">
+								<i class="fa-solid fa-check-double"></i>
+								<span class="text">Terminados</span>
+								<span class="number" th:text="${terminado_size}"></span>
+							</div>
+							<div class="box box4">
+								<i class="fa-solid fa-list"></i>
+								<span class="text">Total</span>
+								<span class="number"  th:text="${total}"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="card mt-3">
+				<div class="card-body">
+					<div class="activity">
+						<div class="title d-flex justify-content-between">
+							<div class="d-flex align-items-center">
+								<i class="fa-solid fa-clock"></i>
+								<span class="text">Pedidos Recientes <small>(hoy)</small></span>
+							</div>
+							<div class="size-number">
+								<span th:text="${pedidos.size()}"></span>	
+							</div>											
+						</div>
+						<div class="table-responsive">
+							<table class="table">
+								<thead>
+									<tr>
+										<th>Cliente</th>
+										<th>Fecha entrega</th>
+										<th>Direccion</th>
+										<th>precio total</th>
+										<th>Estado</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="p : ${pedidos}" th:if="${p.estado != 'proceso_terminado'}">
+										<td th:text="${p.cliente.nombre + ' '+p.cliente.apellido}"></td>
+										<td th:text="${#dates.format(p.fecha_entrega, 'dd/MM/yyyy - h:mm a')}">
+										</td>
+										<td th:text="${p.direccion}"></td>
+										<td th:text="'S/'+${p.precio_total}"></td>
+										<td>
+											<form class="d-flex"
+												th:action="@{/aquaclean/empleados/pedidos/update/{id}(id=${p.id})}"
+												method="post" th:object="${pedido}">
+
+												<select class="form-select" name="tipo">
+													<option disabled selected hidden th:if="${p.estado == 'pendiente'}"
+														th:text="'Pendiente'">
+													</option>
+													<option disabled selected hidden th:if="${p.estado == 'en_proceso'}"
+														th:text="'En proceso'">
+													</option>
+													<option disabled selected hidden
+														th:if="${p.estado == 'proceso_terminado'}"
+														th:text="'Proceso terminado'"></option>
+
+													<option value="1">Pendiente</option>
+													<option value="2">En proceso</option>
+													<option value="3">proceso terminado</option>
+												</select>
+												<button type="submit" class="btn btn-secondary">Editar</button>
+											</form>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+
+		<div class="dash-content">
+
+		</div>
+	</section>
+	<div th:replace="empleado/layout_empleado :: footer"></div>
+</body>
+</html>

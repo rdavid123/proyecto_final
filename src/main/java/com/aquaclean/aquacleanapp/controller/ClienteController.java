@@ -1,0 +1,92 @@
+package com.aquaclean.aquacleanapp.controller;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.aquaclean.aquacleanapp.model.Pedido;
+import com.aquaclean.aquacleanapp.model.Prendas;
+import com.aquaclean.aquacleanapp.model.UsuarioDetalles;
+import com.aquaclean.aquacleanapp.service.PedidoService;
+import com.aquaclean.aquacleanapp.service.ServicioService;
+import com.aquaclean.aquacleanapp.service.UserService;
+
+@Controller
+@RequestMapping("/aquaclean")
+public class ClienteController {
+	
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private PedidoService pedidoService;
+	@Autowired
+	private ServicioService servicioService;
+	
+	
+	public List<Prendas> listPrendas(){
+		List<Prendas> prendas = new ArrayList<>();
+		prendas.add(new Prendas("camisa manga corta",130,"camisas"));
+		prendas.add(new Prendas("camisa manga larga",200,"camisas"));
+		prendas.add(new Prendas("sabana",800,"ropa de cama"));
+		return prendas;
+	}
+	
+	@GetMapping("/clientes")
+	public String pedidos(Model model,Authentication authentication, 
+			@RequestParam(name = "tipo", required = false) String tipo) {
+
+		model.addAttribute("pedido",new Pedido());
+		model.addAttribute("user", userService.findUserById(userService.findUserByEmail(authentication.getName()).getId()));
+		model.addAttribute("title", "Inicio");
+		model.addAttribute("servicios", servicioService.findAllServicios());
+		model.addAttribute("prendas", listPrendas());
+		return "cliente/inicio.html";
+	}
+	
+	
+	@PostMapping("/clientes/pedido/save/exact")
+	public String savePedidoPesoExacto(@ModelAttribute Pedido p, RedirectAttributes redirectAttributes,
+			Authentication authentication, String servicio) {
+		
+		Date fechaActual = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        String fechaFormateada = dateFormat.format(fechaActual);
+        
+        p.setFecha_pedido(fechaFormateada);
+        p.setPrecio_total(p.calcularTotal());
+		p.setEstado("pendiente");
+		p.setCliente(userService.findUserById(userService.findUserByEmail(authentication.getName()).getId()).getId());
+		pedidoService.save(p);
+		redirectAttributes.addFlashAttribute("mensaje", "Pedido agregado exitosamente");
+		return "redirect:/aquaclean/clientes";
+	}
+	
+	@GetMapping("/clientes/pedidos")
+	public String servicios(Model model,Authentication authentication) {
+		UsuarioDetalles usuarioDetalles = userService.findUserByEmail(authentication.getName());
+
+		model.addAttribute("pedidos", 
+				pedidoService.findAll().stream().filter(p -> p.getCliente().getId() == usuarioDetalles.getId())
+			    .collect(Collectors.toList()));
+		model.addAttribute("user", userService.findUserById(userService.findUserByEmail(authentication.getName()).getId()));
+		model.addAttribute("title", "Pedidos");
+		return "cliente/pedidos.html";
+	}
+	
+	
+	
+	
+}

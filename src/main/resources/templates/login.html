@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeLeaf.org">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="/css/normalize.css">
+	<!-- fonts -->
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap"
+		rel="stylesheet">
+	<!-- css -->
+	<link th:href='@{/css/login_register.css}' rel='stylesheet'>
+	<link rel="stylesheet" type="text/css" href="/css/notification.css">
+	<title>Iniciar sesion</title>
+	<!-- icons -->
+	<script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+	
+	<div class="notification show-notification" th:if="${registersucces}" style="background-color: #36d300;">
+		<span th:text="${registersucces}"></span>
+		<span class="close-icon" onclick="closeNotification()">
+			<i class="fas fa-times-circle"></i>
+		</span>
+	</div>
+	<div class="notification show-notification" th:if="${param.error}" style="background-color: darkred;">
+		<span>Usuario no encontrado.</span>
+		<span class="close-icon" onclick="closeNotification()">
+			<i class="fas fa-times-circle"></i>
+		</span>
+	</div>
+	
+	<div class="notification show-notification" th:if="${session_expirated}" style="background-color: darkred;">
+		<span th:text="${session_expirated}"></span>
+		<span class="close-icon" onclick="closeNotification()">
+			<i class="fas fa-times-circle"></i>
+		</span>
+	</div>
+
+
+	<div class="container">
+		<div class="forms-container">
+			<div class="form-signin">
+				<!-- login-->
+				<form th:action="@{/login}" method="post">
+					<h2 class="title">Bienvenido</h2>
+					<div class="input-field">
+						<i class="fas fa-envelope"></i>
+						<input type="text" placeholder="correo" name="username" />
+					</div>
+					<div class="input-field-pass">
+						<i class="fas fa-lock"></i>
+						<i id="btn-show-pass" class="fas fa-eye show-password" title="mostrar contraseña"></i>
+						<input type="password" placeholder="contraseña" name="password" id="input-password" />
+					</div>
+					<input type="submit" value="Iniciar sesión" class="btn solid" />
+					<p class="social-text">Or Sign in with social platforms</p>
+					<div class="social-media">
+						<a href="#" class="social-icon">
+							<i class="fab fa-facebook-f"></i>
+						</a>
+						<a href="#" class="social-icon">
+							<i class="fab fa-twitter"></i>
+						</a>
+						<a href="#" class="social-icon">
+							<i class="fab fa-google"></i>
+						</a>
+						<a href="#" class="social-icon">
+							<i class="fab fa-linkedin-in"></i>
+						</a>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<div class="panels-container">
+			<div class="panel left-panel">
+				<div class="content">
+					<h3>¿Eres nuevo?</h3>
+					<p>
+						Lorem ipsum, dolor sit amet consectetur adipisicing elit. Debitis,
+						ex ratione. Aliquid!
+					</p>
+					<a class="btn transparent" th:href="@{/register}">
+						registrar
+					</a>
+				</div>
+				<img th:src="@{/img/login.svg}" class="image" alt="" />
+			</div>
+
+		</div>
+	</div>
+</body>
+
+
+<script th:src="@{/js/notification.js}"></script>
+<script>
+	const sign_in_btn = document.querySelector("#sign-in-btn");
+	const sign_up_btn = document.querySelector("#sign-up-btn");
+	const container = document.querySelector(".container");
+
+	sign_up_btn.addEventListener("click", () => {
+		container.classList.add("sign-up-mode");
+	});
+
+	sign_in_btn.addEventListener("click", () => {
+		container.classList.remove("sign-up-mode");
+	});
+</script>
+
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+		const btnShowPassword = document.getElementById('btn-show-pass');
+		const inputPass = document.getElementById('input-password');
+
+		btnShowPassword.addEventListener('click', function () {
+			var currentType = inputPass.type;
+			inputPass.type = (currentType === "password") ? "text" : "password";
+		});
+	});
+</script>
+</body>
+</html>

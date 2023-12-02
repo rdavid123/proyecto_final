@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeLeaf.org">
+
+<head th:fragment="head">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap"
+        rel="stylesheet">
+    <!-- css -->
+    <link th:href='@{/css/style_empleado.css}' rel='stylesheet'>
+    <link th:href='@{/css/global_styles.css}' rel='stylesheet'>
+    <link rel="stylesheet" type="text/css" href="/css/notification.css">
+    <!-- icons -->
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    
+    <!-- title -->
+    <title th:text="${title}"></title>
+</head>
+
+<body>
+    <nav class="navbar-admin" th:fragment="navbar">
+        <div class="logo-name">
+            <div class="logo-image">          
+                <img th:src="@{/img/logo.png}" alt="">
+            </div>
+            <span class="logo_name logo ">Aqua<span class="text">Clean</span></span>
+        </div>
+
+        <div class="menu-items">
+            <ul class="nav-links">
+                <li><a th:href="@{/aquaclean/empleados}">
+                    <i class="fa-solid fa-house"></i>
+                    <span class="link-name">Dahsboard</span>
+                </a></li>
+                <li><a th:href="@{/aquaclean/empleados/pedidos}">
+                    <i class="fa-solid fa-box"></i>
+                    <span class="link-name">Pedidos</span>
+                </a></li>
+                <li><a href="#">
+                    <i class="fa-solid fa-user"></i>
+                    <span class="link-name">Clientes</span>
+                </a></li>
+                <li><a href="#">
+                    <i class="fa-solid fa-user-tie"></i>
+                    <span class="link-name">Empleados</span>
+                </a></li>
+                <li><a href="#">
+                    <i class="fa-solid fa-truck"></i>
+                    <span class="link-name">Repartidores</span>
+                </a></li>       
+                
+                <li><a href="#">
+                    <i class="fa-solid fa-user-gear"></i>
+                    <span class="link-name">Configuración</span>
+                </a></li>        
+            </ul>
+            
+            <ul class="logout-mode">      
+                <li class="logout-link">
+                    <a th:href="@{/logout}">
+                        <i class="uil uil-signout"></i>
+                        <span class="link-name">Logout</span>
+                    </a>
+                </li>
+
+                <li class="mode">
+                    <a>
+                        <i class="uil uil-moon"></i>
+                        <span class="link-name">Dark Mode</span>
+                    </a>
+                    <div class="mode-toggle">
+                        <span class="switch"></span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="top" th:fragment="top">
+        <i class="uil uil-bars sidebar-toggle"></i>
+        <div class="search-box">
+            <i class="uil uil-search"></i>
+            <input type="search" placeholder="Search here..." autocomplete="off">
+        </div>           
+        <div class="section-user">
+            <img th:if="${user.avatar != null}" th:src="${user.avatar}">
+            <img th:if="${user.avatar == null}" th:src="@{/img/default_user.jpg}">
+            <span th:text="${user.getFullName}"></span>
+        </div>
+    </div>
+
+    <div th:fragment="footer">
+        <script th:src="@{/js/empleado/navbar.js}"></script>
+        <script th:src="@{/js/notification.js}"></script>
+    </div>
+</body>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout :: head"></head>
+
+<body>
+	<div th:replace="layout :: navbar"></div>
+	<section>
+		<div class="table-responsive">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>Cliente</th>
+						
+						<th>Correo</th>
+						<th>DNI</th>
+						<th>Teléfono</th>
+						
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="user : ${users}">
+						<td class="d-flex align-items-center">						
+							<img th:src="${user.avatar}" width="40" height="40" class="border-50">
+							<span th:text="${user.nombre + ' '+user.apellido}" class="text-center" style="padding-left: 10px;"></span>
+						</td>	
+						<td th:text="${user.correo}"></td>
+						<td th:if="${#strings.length(user.dni) ge 3}"
+							th:text="'*****' + ${#strings.substring(user.dni, #strings.length(user.dni) - 3)}"></td>
+						<td th:if="${#strings.length(user.telefono) ge 3}"
+							th:text="'******' + ${#strings.substring(user.telefono, #strings.length(user.telefono) - 3)}">
+						</td>
+						
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</section>
+
+	<div th:replace="layout :: footer"></div>
+	<script>
+		function ocultarDigitos() {
+			// Obtener el valor del campo de entrada
+			var numero = document.getElementById('numero').value;
+
+			// Número mínimo de dígitos a mostrar
+			var digitosAMostrar = 4;
+
+			// Verificar si el número tiene al menos la cantidad de dígitos a mostrar
+			if (numero.length >= digitosAMostrar) {
+				// Ocultar los primeros dígitos y mostrar solo los últimos
+				var dígitosOcultos = '•'.repeat(numero.length - digitosAMostrar);
+				var númeroVisible = dígitosOcultos + numero.slice(-digitosAMostrar);
+
+				// Actualizar el valor del campo de entrada con el número visible
+				document.getElementById('numero').value = númeroVisible;
+			}
+		}
+	</script>
+</body>
+
+</html>

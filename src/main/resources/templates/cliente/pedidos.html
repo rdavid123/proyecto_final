@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="cliente/layout_cliente :: head">
+</head>
+
+<body>
+	<div th:replace="cliente/layout_cliente :: navbar"></div>
+
+	<section>
+		<div class="row">
+			<!-- ALERT -->
+			<div th:if="${pedidos.isEmpty()}" class="banner-empty shadow">
+				<h1 class="fs-3">No se econtraron pedidos</h1>
+				<div class="pb-3">
+					<p>Estas interesado en nuestros servicios?</p>
+				</div>
+				<a class="btn btn-secondary" th:href="@{/aquaclean/clientes}">Aceptar</a>
+
+			</div>
+			<!-- END ALERT -->
+			
+			<div class="col-12 col-md-6 col-xl-4 mb-3" th:each="p : ${pedidos}">
+				<div class="card" >
+					<div class="card-body">
+						<div class="row">
+							<div class="col-12 row justify-content-between">
+								<div class="col-12 col-md-auto col-xl-auto">
+									<small class="fw-6">Repartidor</small>
+								</div>
+								<div class="col-12 col-md-auto col-xl-auto" th:if="${p.repartidor == null}">
+									<small>no asignado.</small>
+									
+								</div>
+								<div class="col-12 col-md-auto col-xl-auto" th:if="${p.repartidor != null}">
+									<a th:href="@{/aquaclean/profile/{id}(id=${p.repartidor.id})}" style="text-decoration: underline;">
+										<small th:text="${p.repartidor.nombre+' '+p.repartidor.apellido}"></small>
+									</a>
+								</div>
+
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-12 row justify-content-between">
+								<div class="col-12 col-md-auto col-xl-auto">
+									<small class="fw-6">Entrega</small>
+								</div>
+								<div class="col-12 col-md-auto col-xl-auto">
+									<small th:text="${#dates.format(p.fecha_entrega, 'dd/MM/yyyy - h:mm a')}"></small>
+								</div>
+
+							</div>
+						</div>
+
+
+						<div class="row">
+							<div class="col-12 row justify-content-between">
+								<div class="col-12 col-md-auto col-xl-auto">
+									<small class="fw-6">Cantidad</small>
+								</div>
+								<div class="col-12 col-md-auto col-xl-auto">
+									<small th:text="${p.cantidad} + ' prendas'"></small>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-12 row justify-content-between">
+								<div class="col-12 col-md-auto col-xl-auto">
+									<small class="fw-6">Precio aprox</small>
+								</div>
+								<div class="col-12 col-md-auto col-xl-auto">
+									<small th:text="'S/ '+ ${p.precio_total}"></small>
+								</div>
+							</div>
+						</div>
+
+
+						<div class="row">
+							<div class="col-12 row justify-content-between">
+								<div class="col-12 col-md-auto col-xl-auto">
+									<small class="fw-6">Direccion</small>
+								</div>
+								<div class="col-12 col-md-auto col-xl-auto">
+									<small th:text="${p.direccion}"></small>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-12 row justify-content-between">
+								<div class="col-12 col-md-auto col-xl-auto">
+									<small class="fw-6">Estado</small>
+								</div>
+								<div class="col-12 col-md-auto col-xl-auto">
+									<small th:text="${p.estado}"></small>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</section>
+	<div th:replace="cliente/layout_cliente :: footer"></div>
+</body>
+
+</html>

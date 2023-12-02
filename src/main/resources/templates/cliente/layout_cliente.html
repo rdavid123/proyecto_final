@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeLeaf.org">
+
+<head th:fragment="head">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- fonts -->
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap"
+		rel="stylesheet">
+	<!-- css -->
+	<link th:href='@{/css/style_cliente.css}' rel='stylesheet'>
+	<link th:href='@{/css/global_styles.css}' rel='stylesheet'>
+	<link rel="stylesheet" type="text/css" href="/css/notification.css">
+	<!-- icons -->
+	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+	<script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
+	<!-- title -->
+	<title th:text="${title}"></title>
+</head>
+
+<body>
+	<div th:fragment="navbar">
+		<header class="header-navbar">
+			<a th:href="@{/}" class="logo">Aqua<span>Clean</span></a>
+			
+			<div class="navbar">
+				<a th:href="@{/aquaclean/clientes}" class="navbar-item">Inicio</a>
+				<a th:href="@{/aquaclean/clientes/pedidos}" class="navbar-item">Pedidos</a>
+				<a href="" class="navbar-item">Ofertas</a>
+				<div class="search-box">
+					<form action="" method="post">
+						<input type="text">
+						<button class="btn btn-search" type="button">
+							<i class='bx bx-search'></i>
+						</button>
+					</form>
+				</div>
+			</div>
+			
+			<div class="main-navbar">
+				<div class="dropdown">
+					<div class="d-flex align-items-center justify-content-between" id="menu-user" style="gap: 10px;">
+						<img th:src="${user.avatar}" height="30" width="30" class="mx-1 border-50">
+						<small th:text="${user.nombre}"></small>
+						<i class="fas fa-caret-down"></i>
+					</div>
+					<ul class="dropdown-menu dropdown-menu-dark">
+						<li>
+							<a class="dropdown-item"
+								th:href="@{/aquaclean/profile/{id}(id=${user.id})}"><small>Perfil</small>
+							</a>
+						</li>
+						<li>
+							<a class="dropdown-item" th:href="@{/aquaclean/settings/profile}">
+								<small>Configuración</small></a>
+						</li>
+						<li>
+							<a class="dropdown-item">
+								<span class="row justify-content-between">
+									<small class="p-0 w-auto">Modo oscuro</small>
+									<span class=" p-0 container-dark-mode" style="width: 50px;" id="btn-dark-mode">
+										<span class="toggle-dark-mode"></span>
+									</span>
+								</span>
+							</a>
+						</li>
+						<li>
+							<hr class="dropdown-divider">
+						</li>
+						<li sec:authorize="isAuthenticated()">
+							<a class="dropdown-item d-flex justify-content-between" th:href="@{/logout}">
+								<small>Cerrar sesión</small>
+								<i class='bx bx-log-out'></i>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="bx bx-menu mx-3" id="menu-icon"></div>
+			</div>
+		</header>
+	</div>
+
+	
+	<div th:fragment="footer">
+		<script th:src="@{/js/cliente/navbar.js}"></script>
+		<script th:src="@{/js/cliente/darkModeCliente.js}"></script>
+		<script th:src="@{/js/notification.js}"></script>
+	</div>
+</body>
+</html>
