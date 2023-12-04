@@ -1,12 +1,16 @@
-// const btnModal = document.querySelector('.modal-open');
-// const btncloseModal = document.querySelector('.modal-close');
-// const Modal = document.querySelector('.modal');
+function openModal(id) {
+    var modal = document.getElementById("modal" + id);
+    modal.style.display = "block";
+}
 
-// btnModal.addEventListener('click', (e)=>{
-//     e.preventDefault();
-//     Modal.classList.toggle('modal--show')
-// })
+function closeModal(id) {
+    var modal = document.getElementById("modal" + id);
+    modal.style.display = "none";
+}
 
-// btncloseModal.addEventListener('click', (e)=>{
-    
-// })
+// Cerrar el modal si el usuario hace clic fuera de él
+window.onclick = function (event) {
+    if (event.target.classList.contains('modal')) {
+        event.target.style.display = "none";
+    }
+}

@@ -32,17 +32,47 @@ public class UserServiceImpl implements UserService{
     private HttpHeaders headers = new HttpHeaders();
     
     @Autowired
-	private RoleService roleService;
-    @Autowired
 	private BCryptPasswordEncoder passwordEncoder;
-	
-    //Metodos
     
 	@Override
-	public List<UsuarioDetalles> listUsers() {
+	public List<UsuarioDetalles> findAll() {
 		UsuarioDetalles[] array = restTemplate.getForObject(api_url+"/users_detail/", UsuarioDetalles[].class);
 		List<UsuarioDetalles> usuarioDetalles = Arrays.asList(array);
 		return usuarioDetalles;
+	}
+	
+	@Override
+	public List<Usuario> findAllClientes() {
+		Usuario[] array = restTemplate.getForObject(api_url+"/clientes/", Usuario[].class);
+		List<Usuario> clientes = Arrays.asList(array);
+		for(Usuario u : clientes) {
+			if(u.getAvatar() == null) {
+				u.setAvatar(api_url+"/imagenes/imagenes/default.jpg");
+			}
+		}
+		return clientes;
+	}
+	@Override
+	public List<Usuario> findAllEmpleados() {
+		Usuario[] array = restTemplate.getForObject(api_url+"/empleados/", Usuario[].class);
+		List<Usuario> empleados = Arrays.asList(array);
+		for(Usuario u : empleados) {
+			if(u.getAvatar() == null) {
+				u.setAvatar(api_url+"/imagenes/imagenes/default.jpg");
+			}
+		}
+		return empleados;
+	}
+	@Override
+	public List<Usuario> findAllRepartidores() {
+		Usuario[] array = restTemplate.getForObject(api_url+"/repartidores/", Usuario[].class);
+		List<Usuario> repartidores = Arrays.asList(array);
+		for(Usuario u : repartidores) {
+			if(u.getAvatar() == null) {
+				u.setAvatar(api_url+"/imagenes/imagenes/default.jpg");
+			}
+		}
+		return repartidores;
 	}
 	
 	@Override

@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.aquaclean.aquacleanapp.model.Pedido;
 import com.aquaclean.aquacleanapp.model.Prendas;
+import com.aquaclean.aquacleanapp.model.Usuario;
 import com.aquaclean.aquacleanapp.model.UsuarioDetalles;
 import com.aquaclean.aquacleanapp.service.PedidoService;
 import com.aquaclean.aquacleanapp.service.ServicioService;
@@ -35,6 +36,10 @@ public class ClienteController {
 	@Autowired
 	private ServicioService servicioService;
 	
+	public Usuario getUserAuthenticated(Authentication authentication) {
+		return userService.findUserById(userService.findUserByEmail(authentication.getName()).getId());
+	}
+	
 	
 	public List<Prendas> listPrendas(){
 		List<Prendas> prendas = new ArrayList<>();
@@ -45,15 +50,25 @@ public class ClienteController {
 	}
 	
 	@GetMapping("/clientes")
-	public String pedidos(Model model,Authentication authentication, 
+	public String home(Model model,Authentication authentication, 
+			@RequestParam(name = "tipo", required = false) String tipo) {
+
+		model.addAttribute("user", getUserAuthenticated(authentication));
+		model.addAttribute("title", "Inicio");
+		model.addAttribute("servicios", servicioService.findAllServicios());
+		return "cliente/inicio.html";
+	}
+	
+	@GetMapping("/pedido")
+	public String pedido(Model model,Authentication authentication, 
 			@RequestParam(name = "tipo", required = false) String tipo) {
 
 		model.addAttribute("pedido",new Pedido());
-		model.addAttribute("user", userService.findUserById(userService.findUserByEmail(authentication.getName()).getId()));
+		model.addAttribute("user", getUserAuthenticated(authentication));
 		model.addAttribute("title", "Inicio");
 		model.addAttribute("servicios", servicioService.findAllServicios());
 		model.addAttribute("prendas", listPrendas());
-		return "cliente/inicio.html";
+		return "cliente/form_pedido.html";
 	}
 	
 	
@@ -71,7 +86,7 @@ public class ClienteController {
 		p.setCliente(userService.findUserById(userService.findUserByEmail(authentication.getName()).getId()).getId());
 		pedidoService.save(p);
 		redirectAttributes.addFlashAttribute("mensaje", "Pedido agregado exitosamente");
-		return "redirect:/aquaclean/clientes";
+		return "redirect:/aquaclean/pedido";
 	}
 	
 	@GetMapping("/clientes/pedidos")
@@ -81,12 +96,8 @@ public class ClienteController {
 		model.addAttribute("pedidos", 
 				pedidoService.findAll().stream().filter(p -> p.getCliente().getId() == usuarioDetalles.getId())
 			    .collect(Collectors.toList()));
-		model.addAttribute("user", userService.findUserById(userService.findUserByEmail(authentication.getName()).getId()));
+		model.addAttribute("user", getUserAuthenticated(authentication));
 		model.addAttribute("title", "Pedidos");
 		return "cliente/pedidos.html";
 	}
-	
-	
-	
-	
 }

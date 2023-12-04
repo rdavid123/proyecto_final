@@ -2,9 +2,7 @@ package com.aquaclean.aquacleanapp.controller;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.aquaclean.aquacleanapp.model.Pedido;
-import com.aquaclean.aquacleanapp.model.PedidoDetalles;
+import com.aquaclean.aquacleanapp.model.Usuario;
 import com.aquaclean.aquacleanapp.service.PedidoService;
 import com.aquaclean.aquacleanapp.service.UserService;
 
@@ -33,10 +31,14 @@ public class EmpleadoControlador {
 	private PedidoService pedidoService;
 	
 	Date date = new Date(); //fecha actual
+	
+	public Usuario getUserAuthenticated(Authentication authentication) {
+		return userService.findUserById(userService.findUserByEmail(authentication.getName()).getId());
+	}
 
 	@GetMapping("/empleados")
 	public String home(Model model, Authentication authentication) {
-		model.addAttribute("user", userService.findUserDetallesById(userService.findUserByEmail(authentication.getName()).getId()));
+		model.addAttribute("user", getUserAuthenticated(authentication));
 		
 		
 		model.addAttribute("pedidos", pedidoService.findAll().stream().filter(p -> {
@@ -82,47 +84,40 @@ public class EmpleadoControlador {
 		}
 		
 		model.addAttribute("size_pedidos_terminados", pedidoService.findAll().stream().filter(p -> p.getEstado().equals("proceso_terminado")).collect(Collectors.toList()).size());
-		
 		model.addAttribute("size_pedidos_disponibles", pedidoService.findAll().stream().filter(p -> !p.getEstado().equals("proceso_terminado")).collect(Collectors.toList()).size());
-		model.addAttribute("user", userService.findUserDetallesById(userService.findUserByEmail(authentication.getName()).getId()));
+		model.addAttribute("user", getUserAuthenticated(authentication));
 		model.addAttribute("title", "clientes");
 		return "empleado/pedidos.html";
 	}
 	
 	@GetMapping("/empleados/clientes")
 	public String clientes(Model model,Authentication authentication) {
-		model.addAttribute("users", 
-				userService.listUsers().stream().filter(u -> u.getRol().getRol().equals("ROLE_CLIENTE"))
-				.collect(Collectors.toList()));
-		model.addAttribute("user", userService.findUserDetallesById(userService.findUserByEmail(authentication.getName()).getId()));
+		model.addAttribute("users", userService.findAllClientes());
+		model.addAttribute("user", getUserAuthenticated(authentication));
 		model.addAttribute("title", "clientes");
 		return "empleado/clientes.html";
 	}
 	
-	@PostMapping("/empleados/pedidos/update/{id}")
-	public String updatePedido(@PathVariable Long id, @RequestParam String tipo ,RedirectAttributes redirect) {
-		if(tipo.equals("1")) {
-			Pedido pedido = pedidoService.findById(id);
-			pedido.setEstado("pendiente");
-			pedidoService.update(pedido);
-		}else if(tipo.equals("2")) {
-			Pedido pedido = pedidoService.findById(id);
-			pedido.setEstado("en_proceso");
-			pedidoService.update(pedido);
-		}else if(tipo.equals("3")) {
-			Pedido pedido = pedidoService.findById(id);
-			pedido.setEstado("proceso_terminado");
-			pedidoService.update(pedido);
-		}
-		
-		redirect.addFlashAttribute("mensajesuccess", "Pedido editado exitosamente");
-		return "redirect:/aquaclean/empleados/pedidos";
+	@GetMapping("/empleados/repartidores")
+	public String repartidores(Model model,Authentication authentication) {
+		model.addAttribute("users", userService.findAllRepartidores());
+		model.addAttribute("user", getUserAuthenticated(authentication));
+		model.addAttribute("title", "repartidores");
+		return "empleado/repartidores.html";
 	}
 	
 	@PostMapping("/empleados/pedidos/update/proceso/{id}")
 	public String updatePedidoProceso(@PathVariable Long id ,RedirectAttributes redirect) {
 		Pedido pedido = pedidoService.findById(id);
 		pedido.setEstado("en_proceso");
+		pedidoService.update(pedido);
+		redirect.addFlashAttribute("mensajesuccess", "Pedido editado exitosamente");
+		return "redirect:/aquaclean/empleados/pedidos";
+	}
+	@PostMapping("/empleados/pedidos/update/terminado/{id}")
+	public String updatePedidoTerminado(@PathVariable Long id ,RedirectAttributes redirect) {
+		Pedido pedido = pedidoService.findById(id);
+		pedido.setEstado("proceso_terminado");
 		pedidoService.update(pedido);
 		redirect.addFlashAttribute("mensajesuccess", "Pedido editado exitosamente");
 		return "redirect:/aquaclean/empleados/pedidos";

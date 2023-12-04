@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head th:replace="empleado/layout_empleado :: head">
 </head>
-
 <body>
 	<div th:replace="empleado/layout_empleado :: navbar"></div>
 
@@ -18,8 +16,21 @@
 		<!-- TopBar -->
 		<div th:replace="empleado/layout_empleado :: top"></div>
 		<div class="row dash-content">
+
+			<!-- ALERT -->
+			<div th:if="${pedidos_pendientes.isEmpty()}" class="banner-empty shadow">
+				<h1 class="fs-3">No se econtraron pedidos</h1>
+				<div class="pb-3">
+					<p>Estas interesado en nuestros servicios?</p>
+				</div>
+				<a class="btn btn-secondary" th:href="@{/aquaclean/clientes}">Aceptar</a>
+
+			</div>
+			<!-- END ALERT -->
+
+
 			<!-- pedidos pendientes -->
-			<div class="col-4">
+			<div class="col-12 col-md-6 col-xl-4">
 				<div class="card mt-4">
 					<div class="card-header d-flex justify-content-between mb-3">
 						<div class="col-6">
@@ -32,7 +43,8 @@
 					</div>
 					<div class="card-body">
 						<div th:each="p : ${pedidos_pendientes}" class="mb-2">
-							<a class="btn-success btn-order w-100 text-start" th:onclick="'openModal(' + ${p.id} + ')'">
+							<a class="btn-success container-order w-100 text-start" 
+							th:onclick="'openModal(' + ${p.id} + ')'" style="cursor: pointer;">
 								<span class="col-12" th:text="'ID: '+${p.id}"></span>
 								<span class="col-12" th:text="${p.cliente.nombre + ' '+p.cliente.apellido}"></span>
 								<span class="state">Nuevo</span>
@@ -50,7 +62,7 @@
 										</div>
 										<!-- Contenido del modal -->
 										<div class="card-body bg-color row">
-											<div class="col-7">
+											<div class="col-12 col-md-7 col-xl-7">
 												<div class="card">
 													<div class="card-body">
 														<div class="mt-3 row">
@@ -76,17 +88,20 @@
 																	disabled></textarea>
 															</div>
 														</div>
-														
+
 													</div>
 													<div class="card-footer d-flex justify-content-end">
-														<form th:action="@{/aquaclean/empleados/pedidos/update/proceso/{id}(id=${p.id})}" method="post">
-															<button type="submit" class="btn btn-secondary">Empezar</button>
+														<form
+															th:action="@{/aquaclean/empleados/pedidos/update/proceso/{id}(id=${p.id})}"
+															method="post">
+															<button type="submit"
+																class="btn btn-secondary">Empezar</button>
 														</form>
-														
+
 													</div>
 												</div>
 											</div>
-											<div class="col-5">
+											<div class="col-12 col-md-5 col-xl-5">
 												<div class="card">
 													<div class="card-header">
 														Cliente
@@ -104,8 +119,6 @@
 											</div>
 										</div>
 									</div>
-
-
 								</div>
 							</div>
 						</div>
@@ -113,8 +126,8 @@
 				</div>
 			</div>
 
-			<div class="col-4">
-				<div class="card mt-4">
+			<div class="col-12 col-md-6 col-xl-4">
+				<div class="card text  mt-4">
 					<div class="card-header d-flex justify-content-between mb-3">
 						<div class="col-6">
 							<h3 class="text">En proceso</h3>
@@ -123,21 +136,44 @@
 							<span th:text="${pedidos_en_proceso.size()}"></span>
 						</div>
 					</div>
-					<div class="card-body">			
+					<div class="card-body">
 						<div th:each="p : ${pedidos_en_proceso}" class="mb-2">
-							<div class="card text-start"
-								th:href="@{/aquaclean/empleados/pedidos(id=${p.id})}">
-								<span class="row">
-									<span class="col-8 row">
-										<span class="col-12" th:text="'ID: '+${p.id}"></span>
-										<span class="col-12"
-											th:text="${p.cliente.nombre + ' '+p.cliente.apellido}"></span>
-							
-									</span>
-									<span class="col-4 text-end">
-										proceso
-									</span>
-								</span>
+							<div class="card">
+								<div class="card-body">
+									<div class="d-flex justify-content-between">
+										<small>Entrega</small>
+										<small class="state" th:text="${#dates.format(p.fecha_entrega, 'dd/MM/yyyy - h:mm a')}"></small>															
+									</div>
+									<div class="d-flex justify-content-between">
+										<small>ID</small>				
+										<small th:text="${p.id}"></small>						
+									</div>
+									<div class="d-flex justify-content-between">
+										<small>cliente</small>
+										<small th:text="${p.cliente.nombre+ ' '+p.cliente.apellido}"></small>	
+									</div>
+									<!-- button -->
+									<div class="d-flex justify-content-between mt-2">
+										<a  th:onclick="'openModal(' + ${p.id} + ')'"><small>Ver más</small></a>
+										<form
+											th:action="@{/aquaclean/empleados/pedidos/update/terminado/{id}(id=${p.id})}"
+											method="post">
+											<button type="submit"
+												class="btn btn-sm btn-success">pedido listo</button>
+										</form>
+									</div>
+
+									<div th:id="'modal' + ${p.id}" class="modal">
+										<div class="modal-content">
+											<div class="card">
+												<div class="card-body">
+
+												</div>
+											</div>
+										</div>
+									</div>
+
+								</div>								
 							</div>
 						</div>
 					</div>
@@ -146,93 +182,6 @@
 		</div>
 	</section>
 
-	<div class="modal">
-		<div class="modal-container">
-			<div th:if="${pedido_update}">
-				<div class="card">
-					<div class="card-header">
-						<a href="" class="close-modal">X</a>
-					</div>
-					<div class="card-body">
-						<div class="w-100 row justify-content-center">
-							<!--
-							<div class="col-auto">
-								<img th:src="${pedido_update.cliente.avatar}" class="img-user">
-							</div>-->
-						</div>
-						<div class="mt-3">
-							<label>Correo</label>
-							<input type="text" class="form-control" th:value="${pedido_update.cliente.correo}">
-						</div>
-						<div class="mt-3">
-							<label>Descripcion</label>
-							<textarea th:text="${pedido_update.descripcion}" class="form-control"></textarea>
-						</div>
-						<div class="mt-3">
-							<form class="d-flex"
-								th:action="@{/aquaclean/empleados/pedidos/update/{id}(id=${pedido_update.id})}"
-								method="post" th:object="${pedido}">
-
-								<select class="form-select" name="tipo">
-									<option disabled selected hidden th:if="${pedido_update.estado == 'pendiente'}"
-										th:text="'Pendiente'"></option>
-									<option disabled selected hidden th:if="${pedido_update.estado == 'en_proceso'}"
-										th:text="'En proceso'"></option>
-									<option disabled selected hidden
-										th:if="${pedido_update.estado == 'proceso_terminado'}"
-										th:text="'Proceso terminado'"></option>
-
-									<option value="1">Pendiente</option>
-									<option value="2">En proceso</option>
-									<option value="3">proceso terminado</option>
-								</select>
-								<button type="submit" class="btn btn-secondary">
-									<i class="fas fa-check"></i>
-								</button>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="m-4">
-
-		<!-- <p class="text-end">terminados: <b th:text="${size_pedidos_terminados}"></b></p> -->
-		<div class="row">
-			<!-- ALERT -->
-			<div th:if="${pedidos_pendientes.isEmpty()}" class="banner-empty shadow">
-				<h1 class="fs-3">No se econtraron pedidos</h1>
-				<div class="pb-3">
-					<p>Estas interesado en nuestros servicios?</p>
-				</div>
-				<a class="btn btn-secondary" th:href="@{/aquaclean/clientes}">Aceptar</a>
-
-			</div>
-			<!-- END ALERT -->
-		</div>
-	</div>
 	<div th:replace="empleado/layout_empleado :: footer"></div>
-
-	<script>
-		function openModal(id) {
-			var modal = document.getElementById("modal" + id);
-			modal.style.display = "block";
-		}
-
-		function closeModal(id) {
-			var modal = document.getElementById("modal" + id);
-			modal.style.display = "none";
-		}
-
-		// Cerrar el modal si el usuario hace clic fuera de él
-		window.onclick = function (event) {
-			if (event.target.classList.contains('modal')) {
-				event.target.style.display = "none";
-			}
-		}
-	</script>
 </body>
-
 </html>

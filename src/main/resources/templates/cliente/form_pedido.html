@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="cliente/layout_cliente :: head">
+</head>
+
+<body>
+	<div th:replace="cliente/layout_cliente :: navbar"></div>
+	<section>
+		<div class="notification show-notification" th:if="${mensaje}" style="background-color: #36d300;">
+			<span th:text="${mensaje}"></span>
+			<span class="close-icon" onclick="closeNotification()">
+				<i class="fas fa-times-circle"></i>
+			</span>
+		</div>
+
+		<!--
+		<div class="row justify-content-center">
+			<div class="col-12">
+				<div class="card">
+					<div class="card-header">
+						<p>Selecciona una opcion</p>
+					</div>
+					<div class="card-body">
+						<form th:action="@{/aquaclean/clientes}" method="get" class="w-100 d-flex">
+							<select name="tipo" class="form-select">
+								<option disabled selected hidden>...</option>
+								<option value="aprox">Peso aproximado</option>
+								<option value="exacto">Peso exacto (recomendado)</option>
+							</select>
+							<button class="btn btn-secondary" type="submit">Aceptar</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		-->
+
+
+		<!-- Peso exacto-->
+
+		<div class="row justify-content-between">
+			<div class="col-12 col-xl-6 pt-3">
+				<div class="card">
+					<form th:action="@{/aquaclean/clientes/pedido/save/exact}" method="post" th:object="${pedido}">
+
+						<div class="card-body">
+							<div class="row">
+								<div class="col-12 my-2">
+									<p class="fw-6">Fecha entrega</p>
+									<input type="datetime-local" class="form-control" name="fecha_entrega">
+								</div>
+							</div>
+							<div class="row justify-content-between">
+								<div class="col-8 my-2">
+									<p class="fw-6">Direccion</p>
+									<input type="text" name="direccion" id="direccionInput" class="form-control">
+								</div>
+								<div class="col-4 my-2">
+									<p class="fw-6" for="">Actual</p>
+									<a id="obtenerDireccionBtn" class="btn btn-secondary w-100">obtener</a>
+								</div>
+							</div>
+							<div class="row justify-content-between">
+								<div class="col-7 my-2">
+									<p class="fw-6">Peso Exacto (kg.)</p>
+									<input type="number" id="inputExactWeight" name="peso" min="0" step="0.1" max="10"
+										class="form-control">
+								</div>
+								<div class="col-5 my-2">
+									<p class="fw-6">Cantidad:</p>
+									<input type="number" id="" name="cantidad" min="1" class="form-control">
+								</div>
+							</div>
+
+							<div class="row justify-content-between">
+								<div class="col-7 my-2">
+									<p class="fw-6">Servicio</p>
+									<select class="form-select" name="servicio" id="selectServicio">
+										<option th:each="s : ${servicios}" th:value="${s.id}" th:text="${s.titulo}">
+										</option>
+
+									</select>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-12 my-2">
+									<p class="fw-6">Tipo de envio/entrega (costo adicional)</p>
+
+									<label>
+										<input type="radio" name="tipo_entrega" value="1"> Recojo y entrega a
+										Domicilio
+									</label>
+									<br>
+									<label>
+										<input type="radio" name="tipo_entrega" value="2"> Solo Recojo a Domicilio
+									</label>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-12 my-2">
+									<p class="fw-6">Descripcion (opcional)</p>
+									<textarea name="descripcion" class="form-control"></textarea>
+								</div>
+								
+							</div>
+
+						</div>
+						<div class="card-footer">
+							<button type="submit" class="w-100 btn btn-secondary d-flex justify-content-between">
+								<span>Pagar</span>
+								<span id="precioTotal"></span>
+							</button>
+					
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<div class="col-12 col-xl-5 pt-3">
+				<div class="card">
+					<div class="card-body">
+						<h4>Detalles</h4>
+						<hr>
+
+						<div class="row justify-content-between py-3">
+							<div class="col-12">
+								<div class="row justify-content-between" th:each="p : ${prendas}">
+									<span class="col-9" th:text="${p.nombre}"></span>
+									<span class="col-3" th:text="${p.peso}+' gr.'"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</section>
+	<div th:replace="cliente/layout_cliente :: footer"></div>
+
+    <script th:src="@{/js/cliente/getAddress.js}"></script>
+
+	<script>
+		document.getElementById('inputExactWeight').addEventListener('input', calcularPrecioTotal);
+		document.getElementById('selectServicio').addEventListener('change', calcularPrecioTotal);
+		document.querySelectorAll('input[name="tipo_entrega"]').forEach(function (element) {
+			element.addEventListener('change', calcularPrecioTotal);
+		});
+
+		function calcularPrecioTotal() {
+			var peso = parseFloat(document.getElementById('inputExactWeight').value) || 0;
+			var servicioId = parseInt(document.getElementById('selectServicio').value) || 0;
+			var tipoEntrega = parseInt(document.querySelector('input[name="tipo_entrega"]:checked').value) || 1;
+
+			// Realiza el cálculo del precio total según tu lógica
+			var tarifaPorKilogramo = obtenerTarifaPorKilogramo(servicioId);
+			var costoTipoEntrega = obtenerCostoTipoEntrega(tipoEntrega);
+			const precioTotal = peso * tarifaPorKilogramo + costoTipoEntrega;
+			document.getElementById('precioTotal').textContent = 'S/' + precioTotal.toFixed(2);
+		}
+
+		// Debes implementar esta función para obtener la tarifa por kilogramo según el servicio seleccionado
+		function obtenerTarifaPorKilogramo(servicioId) {
+			// Implementa la lógica para obtener la tarifa según el servicio seleccionado
+			var tarifas = {
+				1: 3.5,  // Ejemplo de tarifa para el servicio 1
+				2: 6   // Ejemplo de tarifa para el servicio 2
+			};
+			return tarifas[servicioId] || 0;
+		}
+		function obtenerCostoTipoEntrega(tipoEntrega) {
+			// Implementa la lógica para obtener el costo según el tipo de entrega seleccionado
+			var costos = {
+				1: 6,  // Ejemplo de costo adicional para recojo y entrega a domicilio
+				2: 3    // Ejemplo de costo adicional para solo recojo a domicilio
+			};
+			return costos[tipoEntrega] || 0;
+		}
+	</script>
+
+</body>
+</html>

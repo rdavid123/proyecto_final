@@ -14,7 +14,6 @@ import org.springframework.web.client.RestTemplate;
 
 import com.aquaclean.aquacleanapp.model.PedidoDetalles;
 import com.aquaclean.aquacleanapp.model.Pedido;
-import com.aquaclean.aquacleanapp.model.UsuarioDetalles;
 
 @Service
 public class PedidoServiceImpl implements PedidoService{

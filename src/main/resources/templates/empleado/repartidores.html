@@ -9,55 +9,55 @@
 		<div th:replace="empleado/layout_empleado :: top"></div>
 
 		<div class="dash-content px-3">
+
 			<div class="card mt-3">
 				<div class="card-header">
-					<!-- TITLE -->
+					<!-- title -->
 					<div class="title d-flex justify-content-between">
 						<div class="d-flex align-items-center">
 							<i class="fa-solid fa-users"></i>
-							<span class="text">Clientes</span>
+							<span class="text">Repartidores</span>
 						</div>
 						<div class="size-number">
-							<span th:text="${users.size()}"></span>	
-						</div>											
+							<span th:text="${users.size()}"></span>
+						</div>
 					</div>
 				</div>
 				<div class="card-body">
-					
-					<!-- TABLE CLIENTES -->
+
+					<!-- TABLE Repartidores -->
 					<div class="table-responsive">
 						<table class="table table-hover">
 							<thead>
 								<tr>
-									<th>Cliente</th>							
+									<th>Repartidor</th>
 									<th>Correo</th>
 									<th>DNI</th>
 									<th>Teléfono</th>
-									
 								</tr>
 							</thead>
 							<tbody>
 								<tr th:each="user : ${users}">
-									<td class="d-flex align-items-center">						
+									<td class="d-flex align-items-center">
 										<img th:src="${user.avatar}" width="40" height="40" class="border-50">
-										<span th:text="${user.nombre + ' '+user.apellido}" class="text-center" style="padding-left: 10px;"></span>
-									</td>	
+										<span th:text="${user.nombre + ' '+user.apellido}" class="text-center"
+											style="padding-left: 10px;"></span>
+									</td>
 									<td th:text="${user.correo}"></td>
 									<td th:if="${#strings.length(user.dni) ge 3}"
-										th:text="'*****' + ${#strings.substring(user.dni, #strings.length(user.dni) - 3)}"></td>
+										th:text="'*****' + ${#strings.substring(user.dni, #strings.length(user.dni) - 3)}">
+									</td>
 									<td th:if="${#strings.length(user.telefono) ge 3}"
 										th:text="'******' + ${#strings.substring(user.telefono, #strings.length(user.telefono) - 3)}">
 									</td>
-									
 								</tr>
 							</tbody>
 						</table>
 					</div>
 				</div>
 			</div>
-			
+
 		</div>
-		
 	</section>
 
 	<div th:replace="empleado/layout_empleado :: footer"></div>

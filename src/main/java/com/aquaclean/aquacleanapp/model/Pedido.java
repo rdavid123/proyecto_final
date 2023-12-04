@@ -164,9 +164,9 @@ public class Pedido {
 	private double obtenerTarifaPorServicio() {
 
         if (servicio == (long) 1) {
-        	return 6.00; 
+        	return 3.50; 
         } else if (servicio == (long) 2) {
-        	return 3.00; 
+        	return 6.00; 
         }else {
         	return 0;
         }

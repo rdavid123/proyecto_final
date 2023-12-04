@@ -28,9 +28,7 @@ public class Usuario {
 		this.avatar = avatar;
 		this.password = password;
 		this.rol = rol;
-	}
-	
-	
+	}	
 
 	public Long getId() {
 		return id;

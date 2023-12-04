@@ -7,14 +7,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.aquaclean.aquacleanapp.model.Usuario;
-import com.aquaclean.aquacleanapp.model.UsuarioDetalles;
 import com.aquaclean.aquacleanapp.service.UserService;
 
 @Controller
@@ -37,7 +33,7 @@ public class RegisterController {
 			return "redirect:/register";
 		}
 		
-		if(userService.listUsers().size() == 0) {
+		if(userService.findAll().size() == 0) {
 			userService.registerAdmin(usuario);
 		}else {
 			userService.registerCliente(usuario);

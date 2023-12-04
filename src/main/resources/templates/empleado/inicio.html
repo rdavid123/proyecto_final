@@ -13,12 +13,15 @@
 		<!-- content -->
 		<div class="dash-content px-3">
 			<div class="card mt-3">
+				<div class="card-header">
+					<div class="title">
+						<i class="fa-solid fa-gauge-simple-high"></i>
+						<span class="text">Pedidos</span>
+					</div>
+				</div>
 				<div class="card-body">
 					<div class="overview">
-						<div class="title">
-							<i class="uil uil-tachometer-fast-alt"></i>
-							<span class="text">Pedidos</span>
-						</div>
+						
 						<div class="boxes">
 							<div class="box box1">
 								<i class="fa-solid fa-circle-pause"></i>
@@ -47,17 +50,20 @@
 
 
 			<div class="card mt-3">
+				<div class="card-header">
+					<div class="title d-flex justify-content-between">
+						<div class="d-flex align-items-center">
+							<i class="fa-solid fa-clock"></i>
+							<span class="text">Pedidos Recientes <small>(hoy)</small></span>
+						</div>
+						<div class="size-number">
+							<span th:text="${pedidos.size()}"></span>	
+						</div>											
+					</div>
+				</div>
 				<div class="card-body">
 					<div class="activity">
-						<div class="title d-flex justify-content-between">
-							<div class="d-flex align-items-center">
-								<i class="fa-solid fa-clock"></i>
-								<span class="text">Pedidos Recientes <small>(hoy)</small></span>
-							</div>
-							<div class="size-number">
-								<span th:text="${pedidos.size()}"></span>	
-							</div>											
-						</div>
+						
 						<div class="table-responsive">
 							<table class="table">
 								<thead>

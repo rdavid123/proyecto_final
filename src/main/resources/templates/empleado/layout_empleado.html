@@ -15,7 +15,6 @@
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     
     <!-- title -->
     <title th:text="${title}"></title>
@@ -40,15 +39,12 @@
                     <i class="fa-solid fa-box"></i>
                     <span class="link-name">Pedidos</span>
                 </a></li>
-                <li><a href="#">
+                <li><a th:href="@{/aquaclean/empleados/clientes}">
                     <i class="fa-solid fa-user"></i>
                     <span class="link-name">Clientes</span>
                 </a></li>
-                <li><a href="#">
-                    <i class="fa-solid fa-user-tie"></i>
-                    <span class="link-name">Empleados</span>
-                </a></li>
-                <li><a href="#">
+          
+                <li><a th:href="@{/aquaclean/empleados/repartidores}">
                     <i class="fa-solid fa-truck"></i>
                     <span class="link-name">Repartidores</span>
                 </a></li>       
@@ -62,14 +58,14 @@
             <ul class="logout-mode">      
                 <li class="logout-link">
                     <a th:href="@{/logout}">
-                        <i class="uil uil-signout"></i>
+                        <i class="fa-sharp fa-solid fa-right-from-bracket"></i>
                         <span class="link-name">Logout</span>
                     </a>
                 </li>
 
                 <li class="mode">
                     <a>
-                        <i class="uil uil-moon"></i>
+                        <i class="fa-solid fa-moon"></i>
                         <span class="link-name">Dark Mode</span>
                     </a>
                     <div class="mode-toggle">
@@ -96,5 +92,6 @@
     <div th:fragment="footer">
         <script th:src="@{/js/empleado/navbar.js}"></script>
         <script th:src="@{/js/notification.js}"></script>
+        <script th:src="@{/js/modal.js}"></script>
     </div>
 </body>

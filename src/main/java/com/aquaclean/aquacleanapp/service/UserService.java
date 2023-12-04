@@ -10,7 +10,10 @@ import com.aquaclean.aquacleanapp.model.UsuarioDetalles;
 
 public interface UserService extends UserDetailsService{
 
-	public List<UsuarioDetalles> listUsers();
+	public List<UsuarioDetalles> findAll();
+	public List<Usuario> findAllClientes();
+	public List<Usuario> findAllEmpleados();
+	public List<Usuario> findAllRepartidores();
 	
 	public void registerCliente(Usuario usu);
 	public void registerAdmin(Usuario usu);

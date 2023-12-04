@@ -446,9 +446,11 @@ button{
 
 .btn-success {
 	background-color: var(--success);
+	color: var(--background-white);
 }
 .btn-danger {
 	background-color: var(--danger);
+	color: var(--background-white);
 }
 
 
@@ -467,20 +469,18 @@ button{
 	word-wrap: break-word;
 	background-color: var(--panel-color);
 	background-clip: border-box;
-	box-shadow: 0 0.3rem 1rem rgba(0, 0, 0, 0.06);
+	box-shadow: 0 0.6rem 1.5rem rgba(0, 0, 0, 0.1);
 	border-radius: 8px;
 }
 
 .card-header {
 	padding: 0.5rem 1rem;
 	margin-bottom: 0;
-	background-color: rgba(0, 0, 0, 0.03);
 	border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 }
 
 .card-footer {
 	padding: 0.5rem 1rem;
-	background-color: rgba(0, 0, 0, 0.02);
 	border-top: 1px solid rgba(0, 0, 0, 0.125);
 }
 
@@ -521,7 +521,7 @@ input {
 
 .form-control:disabled,
 .form-control[readonly] {
-	background-color: #f2f2f2;
+	background-color: var(--background-main);
 	opacity: 1;
 }
 
@@ -573,7 +573,7 @@ input {
 }
 
 .form-select:disabled {
-	background-color: transparent;
+	background-color: var(--background-main);
 }
 
 .form-check {
@@ -642,7 +642,7 @@ input {
 	background-color: var(--panel-color);
 	margin: 10% auto;
 	width: 80%;
-	max-width: 1000px;
+	max-width: 1050px;
 	color: var(--text-color);
 }
   
