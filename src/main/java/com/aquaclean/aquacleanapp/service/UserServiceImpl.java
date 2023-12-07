@@ -146,5 +146,7 @@ public class UserServiceImpl implements UserService{
             System.err.println("Error al editar el usuario. Código de estado: " + response.getStatusCodeValue());
         }
 	}
+
+	
 	
 }

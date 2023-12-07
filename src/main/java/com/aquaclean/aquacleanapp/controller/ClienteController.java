@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.aquaclean.aquacleanapp.model.Pedido;
+import com.aquaclean.aquacleanapp.model.PedidoDetalles;
 import com.aquaclean.aquacleanapp.model.Prendas;
 import com.aquaclean.aquacleanapp.model.Usuario;
 import com.aquaclean.aquacleanapp.model.UsuarioDetalles;
@@ -61,8 +62,8 @@ public class ClienteController {
 	
 	@GetMapping("/pedido")
 	public String pedido(Model model,Authentication authentication, 
-			@RequestParam(name = "tipo", required = false) String tipo) {
-
+			@RequestParam(name = "id", required = false) Integer id) {
+		model.addAttribute("id_servicio", id);
 		model.addAttribute("pedido",new Pedido());
 		model.addAttribute("user", getUserAuthenticated(authentication));
 		model.addAttribute("title", "Inicio");
@@ -80,6 +81,40 @@ public class ClienteController {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
         String fechaFormateada = dateFormat.format(fechaActual);
         
+        if(pedidoService.findAll().size() == 0) { //si es el primer pedido se le asigna el primer repartidor
+        	p.setRepartidor(userService.findAllRepartidores().get(0).getId());
+     
+        }
+
+        for (Usuario rp : userService.findAllRepartidores()) {
+            // Verificar si el repartidor actual no está asignado a ningún pedido en proceso o está asignado a un pedido finalizado
+            boolean repartidorDisponible = true;
+
+            for (PedidoDetalles pedido : pedidoService.findAll()) {
+                if (pedido.getRepartidor() != null && pedido.getRepartidor().getId() == rp.getId()) {
+                    // El repartidor está asignado a algún pedido
+                    if (pedido.getEstado().equals("en_proceso") || pedido.getEstado().equals("pendiente") || pedido.getEstado().equals("proceso_terminado")) {
+                        // El repartidor está asignado a un pedido en proceso o pendiente o proceso_terminado
+                        repartidorDisponible = false;
+                        break;
+                    } else if (!pedido.getEstado().equals("finalizado")) {
+                        // El repartidor está asignado a un pedido que no está finalizado
+                        repartidorDisponible = false;
+                        break;
+                    }
+                }
+            }
+
+            // Si el repartidor está disponible, asignarlo al pedido actual y salir del bucle
+            if (repartidorDisponible) {
+                p.setRepartidor(rp.getId());
+                break;
+            }else {
+            	redirectAttributes.addFlashAttribute("mensaje_error", "No hay un repartidor disponible actualmente. Intentalo luego");
+            	return "redirect:/aquaclean/pedido";
+            }
+        }
+
         p.setFecha_pedido(fechaFormateada);
         p.setPrecio_total(p.calcularTotal());
 		p.setEstado("pendiente");

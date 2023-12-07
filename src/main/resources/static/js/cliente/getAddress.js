@@ -3,6 +3,7 @@ document.getElementById('obtenerDireccionBtn').addEventListener('click', functio
         navigator.geolocation.getCurrentPosition(function(position) {
             var latitud = position.coords.latitude;
             var longitud = position.coords.longitude;
+            console.log(latitud,longitud);
 
             var apiKey = 'f1280a7cd360446d9667e3c61c13fef1'; // Reemplaza con tu propia clave de API de OpenCage
             var apiUrl = `https://api.opencagedata.com/geocode/v1/json?key=${apiKey}&q=${latitud}+${longitud}&language=es`;

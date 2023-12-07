@@ -15,8 +15,8 @@ public class UsuarioDetalles {
 		
 	}
 
-	public UsuarioDetalles(Long id, String nombre, String apellido, String correo, String telefono, String dni, String avatar, String password,
-			Role rol) {
+	public UsuarioDetalles(Long id, String nombre, String apellido, String correo, String telefono, String dni,
+			String avatar, String password, Role rol) {
 		this.id = id;
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -27,7 +27,6 @@ public class UsuarioDetalles {
 		this.password = password;
 		this.rol = rol;
 	}
-
 
 
 	public Long getId() {
@@ -110,7 +109,7 @@ public class UsuarioDetalles {
 	public String getFullName() {
 		return nombre + " " + apellido;
 	}
-	
+
 	public Boolean darkMode() {
 		Boolean dark_mode = false;
 		return dark_mode;

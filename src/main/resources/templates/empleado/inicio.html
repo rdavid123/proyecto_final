@@ -82,29 +82,7 @@
 										</td>
 										<td th:text="${p.direccion}"></td>
 										<td th:text="'S/'+${p.precio_total}"></td>
-										<td>
-											<form class="d-flex"
-												th:action="@{/aquaclean/empleados/pedidos/update/{id}(id=${p.id})}"
-												method="post" th:object="${pedido}">
-
-												<select class="form-select" name="tipo">
-													<option disabled selected hidden th:if="${p.estado == 'pendiente'}"
-														th:text="'Pendiente'">
-													</option>
-													<option disabled selected hidden th:if="${p.estado == 'en_proceso'}"
-														th:text="'En proceso'">
-													</option>
-													<option disabled selected hidden
-														th:if="${p.estado == 'proceso_terminado'}"
-														th:text="'Proceso terminado'"></option>
-
-													<option value="1">Pendiente</option>
-													<option value="2">En proceso</option>
-													<option value="3">proceso terminado</option>
-												</select>
-												<button type="submit" class="btn btn-secondary">Editar</button>
-											</form>
-										</td>
+										<td th:text="${p.estado}"></td>
 									</tr>
 								</tbody>
 							</table>
