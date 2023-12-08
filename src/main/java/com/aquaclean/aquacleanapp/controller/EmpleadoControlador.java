@@ -2,7 +2,9 @@ package com.aquaclean.aquacleanapp.controller;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.aquaclean.aquacleanapp.model.Pedido;
+import com.aquaclean.aquacleanapp.model.PedidoDetalles;
 import com.aquaclean.aquacleanapp.model.Usuario;
 import com.aquaclean.aquacleanapp.service.PedidoService;
 import com.aquaclean.aquacleanapp.service.UserService;
@@ -74,9 +77,10 @@ public class EmpleadoControlador {
 			pedidos = pedidoService.findAll();
 		}
 		*/
-		model.addAttribute("pedidos_pendientes", pedidoService.findAll().stream().filter(p -> p.getEstado().equals("pendiente"))
-		.collect(Collectors.toList()));
-		model.addAttribute("pedidos_en_proceso", pedidoService.findAll().stream().filter(p -> p.getEstado().equals("proceso"))
+		
+		model.addAttribute("pedidos_pendientes", pedidoService.findAll().stream().filter(p -> p.getEstado().equals("pendiente")).limit(4)
+				.collect(Collectors.toList()));
+		model.addAttribute("pedidos_en_proceso", pedidoService.findAll().stream().filter(p -> p.getEstado().equals("proceso")).limit(4)
 				.collect(Collectors.toList()));
 		
 		if(id != null) {

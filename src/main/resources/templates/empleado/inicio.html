@@ -71,7 +71,7 @@
 										<th>Cliente</th>
 										<th>Fecha entrega</th>
 										<th>Direccion</th>
-										<th>precio total</th>
+							
 										<th>Estado</th>
 									</tr>
 								</thead>
@@ -81,7 +81,7 @@
 										<td th:text="${#dates.format(p.fecha_entrega, 'dd/MM/yyyy - h:mm a')}">
 										</td>
 										<td th:text="${p.direccion}"></td>
-										<td th:text="'S/'+${p.precio_total}"></td>
+										
 										<td th:text="${p.estado}"></td>
 									</tr>
 								</tbody>
