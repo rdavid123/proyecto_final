@@ -50,7 +50,7 @@ public class EmpleadoControlador {
         }).collect(Collectors.toList()));
 		
 		model.addAttribute("pendientes_size", pedidoService.findAll().stream().filter(p -> p.getEstado().equals("pendiente")).count());
-		model.addAttribute("proceso_size", pedidoService.findAll().stream().filter(p -> p.getEstado().equals("en_proceso")).count());
+		model.addAttribute("proceso_size", pedidoService.findAll().stream().filter(p -> p.getEstado().equals("proceso")).count());
 		model.addAttribute("terminado_size", pedidoService.findAll().stream().filter(p -> p.getEstado().equals("proceso_terminado")).count());	
 		model.addAttribute("total", pedidoService.findAll().size());
 		model.addAttribute("title", "Inicio");
@@ -76,7 +76,7 @@ public class EmpleadoControlador {
 		*/
 		model.addAttribute("pedidos_pendientes", pedidoService.findAll().stream().filter(p -> p.getEstado().equals("pendiente"))
 		.collect(Collectors.toList()));
-		model.addAttribute("pedidos_en_proceso", pedidoService.findAll().stream().filter(p -> p.getEstado().equals("en_proceso"))
+		model.addAttribute("pedidos_en_proceso", pedidoService.findAll().stream().filter(p -> p.getEstado().equals("proceso"))
 				.collect(Collectors.toList()));
 		
 		if(id != null) {
@@ -109,7 +109,7 @@ public class EmpleadoControlador {
 	@PostMapping("/empleados/pedidos/update/proceso/{id}")
 	public String updatePedidoProceso(@PathVariable Long id ,RedirectAttributes redirect) {
 		Pedido pedido = pedidoService.findById(id);
-		pedido.setEstado("en_proceso");
+		pedido.setEstado("proceso");
 		pedidoService.update(pedido);
 		redirect.addFlashAttribute("mensajesuccess", "Pedido editado exitosamente");
 		return "redirect:/aquaclean/empleados/pedidos";

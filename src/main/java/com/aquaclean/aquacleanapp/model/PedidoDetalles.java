@@ -1,6 +1,5 @@
 package com.aquaclean.aquacleanapp.model;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 
@@ -10,11 +9,10 @@ public class PedidoDetalles {
 	private Date fecha_entrega;
 	private String direccion;
 	private String estado;
-	private Integer cantidad;
+	private Integer cantidad_prendas;
 	private Servicio servicio;
 	private String tipo_entrega;
 	private String descripcion;
-	private Double precio_total;
 	private UsuarioDetalles cliente;
 	
 	private UsuarioDetalles repartidor;
@@ -25,8 +23,8 @@ public class PedidoDetalles {
 		
 	}
 
-	public PedidoDetalles(Long id, Date fecha_pedido, Date fecha_entrega, String direccion, String estado, Integer cantidad,
-			Servicio servicio, String tipo_entrega, String descripcion, Double precio_total, UsuarioDetalles cliente,
+	public PedidoDetalles(Long id, Date fecha_pedido, Date fecha_entrega, String direccion, String estado, Integer cantidad_prendas,
+			Servicio servicio, String tipo_entrega, String descripcion,UsuarioDetalles cliente,
 			UsuarioDetalles repartidor, Double peso) {
 		super();
 		this.id = id;
@@ -34,11 +32,10 @@ public class PedidoDetalles {
 		this.fecha_entrega = fecha_entrega;
 		this.direccion = direccion;
 		this.estado = estado;
-		this.cantidad = cantidad;
+		this.cantidad_prendas = cantidad_prendas;
 		this.servicio = servicio;
 		this.tipo_entrega = tipo_entrega;
 		this.descripcion = descripcion;
-		this.precio_total = precio_total;
 		this.cliente = cliente;
 		this.repartidor = repartidor;
 		this.peso = peso;
@@ -84,12 +81,13 @@ public class PedidoDetalles {
 		this.estado = estado;
 	}
 
-	public Integer getCantidad() {
-		return cantidad;
+	
+	public Integer getCantidad_prendas() {
+		return cantidad_prendas;
 	}
 
-	public void setCantidad(Integer cantidad) {
-		this.cantidad = cantidad;
+	public void setCantidad_prendas(Integer cantidad_prendas) {
+		this.cantidad_prendas = cantidad_prendas;
 	}
 
 	public Servicio getServicio() {
@@ -116,13 +114,6 @@ public class PedidoDetalles {
 		this.descripcion = descripcion;
 	}
 
-	public Double getPrecio_total() {
-		return precio_total;
-	}
-
-	public void setPrecio_total(Double precio_total) {
-		this.precio_total = precio_total;
-	}
 
 	public UsuarioDetalles getCliente() {
 		return cliente;

@@ -58,9 +58,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
             .antMatchers("/aquaclean/empleados/**").hasRole("EMPLEADO")
             .antMatchers("/aquaclean/admin/**").hasRole("ADMIN")
             .antMatchers("/","/js/**", "/css/**", "/img/**").permitAll()
+            .antMatchers("/create-payment-intent").permitAll()
             .antMatchers("/register","/login").permitAll()
-            
+            .anyRequest().permitAll()
             .and()
+            
             .formLogin()
             .loginPage("/login")
             .successHandler(loginSuccessHandler())
@@ -71,7 +73,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
             .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
             .logoutSuccessUrl("/login?logout")
             .permitAll()
-            .and().addFilterBefore(new RedirectFilter(), UsernamePasswordAuthenticationFilter.class);
+            .and().addFilterBefore(new RedirectFilter(), UsernamePasswordAuthenticationFilter.class)
+            
+            .csrf().disable();
     }
 	
 	@Bean

@@ -23,6 +23,6 @@ public class HomeController {
 		} else {
 			model.addAttribute("loginUser", "Iniciar sesión");
 		}
-		return "home";
+		return "home.html";
 	}
 }

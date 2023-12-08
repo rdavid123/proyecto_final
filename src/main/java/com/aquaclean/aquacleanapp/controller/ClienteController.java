@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.aquaclean.aquacleanapp.model.Pedido;
 import com.aquaclean.aquacleanapp.model.PedidoDetalles;
 import com.aquaclean.aquacleanapp.model.Prendas;
+import com.aquaclean.aquacleanapp.model.StripePaymentRequest;
 import com.aquaclean.aquacleanapp.model.Usuario;
 import com.aquaclean.aquacleanapp.model.UsuarioDetalles;
 import com.aquaclean.aquacleanapp.service.PedidoService;
@@ -36,6 +38,8 @@ public class ClienteController {
 	private PedidoService pedidoService;
 	@Autowired
 	private ServicioService servicioService;
+	@Value("${stripe.api.publicKey}")
+    private String publicKey;
 	
 	public Usuario getUserAuthenticated(Authentication authentication) {
 		return userService.findUserById(userService.findUserByEmail(authentication.getName()).getId());
@@ -70,6 +74,41 @@ public class ClienteController {
 		model.addAttribute("servicios", servicioService.findAllServicios());
 		model.addAttribute("prendas", listPrendas());
 		return "cliente/form_pedido.html";
+	}
+	
+	@PostMapping("/clientes/save-pedido")
+	public String saveNewPedido(Model model, @ModelAttribute Pedido p,
+			Authentication authentication, RedirectAttributes redirectAttributes,
+			@ModelAttribute StripePaymentRequest request) {
+		double pricedouble = p.calcularTotal();
+		int price = (int) pricedouble;
+		
+		/* Asignar repartidor*/
+		
+		if(pedidoService.findAll().size() == 0) { //si es el primer pedido se le asigna el primer repartidor
+        	p.setRepartidor(userService.findAllRepartidores().get(0).getId());
+        }
+		
+		List<Usuario> repartidores_disponibles = userService.findAllRepartidores().stream().filter(r -> r.getEstado_repartidor()== true).collect(Collectors.toList());
+		p.setRepartidor(repartidores_disponibles.get(0).getId());
+		if(repartidores_disponibles.isEmpty()) {
+			redirectAttributes.addFlashAttribute("mensaje_error", "No hay un repartidor disponible actualmente. Intentalo luego");
+        	return "redirect:/aquaclean/pedido";
+		}
+	
+		model.addAttribute("amount",price);
+		model.addAttribute("productName","PedidoReservado");
+		model.addAttribute("publicKey", publicKey);
+		model.addAttribute("id_cliente", getUserAuthenticated(authentication).getId());
+		model.addAttribute("fecha_pedido", new Date());
+		model.addAttribute("fecha_entrega", p.getFecha_entrega());
+		model.addAttribute("tipo_entrega", p.getTipo_entrega());
+		model.addAttribute("descripcion", p.getDescripcion());
+		model.addAttribute("direccion", p.getDireccion());
+		model.addAttribute("id_servicio", p.getServicio());
+		model.addAttribute("id_repartidor", p.getRepartidor());
+		model.addAttribute("cantidad_prendas", p.getCantidad_prendas());
+		return "cliente/checkout.html";
 	}
 	
 	
@@ -116,7 +155,6 @@ public class ClienteController {
         }
 
         p.setFecha_pedido(fechaFormateada);
-        p.setPrecio_total(p.calcularTotal());
 		p.setEstado("pendiente");
 		p.setCliente(userService.findUserById(userService.findUserByEmail(authentication.getName()).getId()).getId());
 		pedidoService.save(p);

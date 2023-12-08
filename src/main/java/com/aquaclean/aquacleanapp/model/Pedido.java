@@ -12,11 +12,10 @@ public class Pedido {
 	private String fecha_entrega;
 	private String direccion;
 	private String estado;
-	private Integer cantidad;
+	private Integer cantidad_prendas;
 	private Long servicio;
 	private String tipo_entrega;
 	private String descripcion;
-	private Double precio_total;
 	private Long cliente;
 	private Long repartidor;
 	
@@ -26,24 +25,31 @@ public class Pedido {
 	public Pedido() {
 	}
 
+	
+
+	
+	
 	public Pedido(Long id, String fecha_pedido, String fecha_entrega, String direccion, String estado,
-			Integer cantidad, Long servicio, String tipo_entrega, String descripcion, Double precio_total,
-			Long cliente, Long repartidor, Double peso) {
+			Integer cantidad_prendas, Long servicio, String tipo_entrega, String descripcion, Long cliente,
+			Long repartidor, Double peso) {
 		super();
 		this.id = id;
 		this.fecha_pedido = fecha_pedido;
 		this.fecha_entrega = fecha_entrega;
 		this.direccion = direccion;
 		this.estado = estado;
-		this.cantidad = cantidad;
+		this.cantidad_prendas = cantidad_prendas;
 		this.servicio = servicio;
 		this.tipo_entrega = tipo_entrega;
 		this.descripcion = descripcion;
-		this.precio_total = precio_total;
 		this.cliente = cliente;
 		this.repartidor = repartidor;
 		this.peso = peso;
 	}
+
+
+
+
 
 	public Long getId() {
 		return id;
@@ -52,6 +58,7 @@ public class Pedido {
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 
 	public String getFecha_pedido() {
 		return fecha_pedido;
@@ -65,6 +72,7 @@ public class Pedido {
 		return fecha_entrega;
 	}
 
+
 	public void setFecha_entrega(String fecha_entrega) {
 		this.fecha_entrega = fecha_entrega;
 	}
@@ -72,6 +80,7 @@ public class Pedido {
 	public String getDireccion() {
 		return direccion;
 	}
+
 
 	public void setDireccion(String direccion) {
 		this.direccion = direccion;
@@ -81,17 +90,27 @@ public class Pedido {
 		return estado;
 	}
 
+
+
+
+
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
 
-	public Integer getCantidad() {
-		return cantidad;
+
+	public Integer getCantidad_prendas() {
+		return cantidad_prendas;
 	}
 
-	public void setCantidad(Integer cantidad) {
-		this.cantidad = cantidad;
+
+
+
+
+	public void setCantidad_prendas(Integer cantidad_prendas) {
+		this.cantidad_prendas = cantidad_prendas;
 	}
+
 
 	public Long getServicio() {
 		return servicio;
@@ -117,40 +136,58 @@ public class Pedido {
 		this.descripcion = descripcion;
 	}
 
-	public Double getPrecio_total() {
-		return precio_total;
-	}
 
-	public void setPrecio_total(Double precio_total) {
-		this.precio_total = precio_total;
-	}
+
+
 
 	public Long getCliente() {
 		return cliente;
 	}
 
+
+
+
+
 	public void setCliente(Long cliente) {
 		this.cliente = cliente;
 	}
+
+
+
+
 
 	public Long getRepartidor() {
 		return repartidor;
 	}
 
+
+
+
+
 	public void setRepartidor(Long repartidor) {
 		this.repartidor = repartidor;
 	}
+
+
+
+
 
 	public Double getPeso() {
 		return peso;
 	}
 
+
+
+
+
 	public void setPeso(Double peso) {
 		this.peso = peso;
 	}
 
-	
-	
+
+
+
+
 	private double obtenerTarifaPorEntrega() {
 		if(tipo_entrega.equals("1")) {
         	return  6.00;

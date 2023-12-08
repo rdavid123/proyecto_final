@@ -12,13 +12,14 @@ public class Usuario {
 	private String password;
 	private Long rol;
 	
+	private Boolean estado_repartidor;
+	
 	public Usuario() {
 		
 	}
-	
-	public Usuario(Long id, String nombre, String apellido,
-			String correo, String telefono, String dni, String avatar,
-			String password, Long rol) {
+
+	public Usuario(Long id, String nombre, String apellido, String correo, String telefono, String dni, String avatar,
+			String password, Long rol, Boolean estado_repartidor) {
 		this.id = id;
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -28,7 +29,10 @@ public class Usuario {
 		this.avatar = avatar;
 		this.password = password;
 		this.rol = rol;
-	}	
+		this.estado_repartidor = estado_repartidor;
+	}
+
+
 
 	public Long getId() {
 		return id;
@@ -103,6 +107,18 @@ public class Usuario {
 	}
 	public String getFullName() {
 		return nombre + " " + apellido;
+	}
+
+
+
+	public Boolean getEstado_repartidor() {
+		return estado_repartidor;
+	}
+
+
+
+	public void setEstado_repartidor(Boolean estado_repartidor) {
+		this.estado_repartidor = estado_repartidor;
 	}
 	
 	
