@@ -57,6 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
             .antMatchers("/aquaclean/clientes/**").hasRole("CLIENTE")
             .antMatchers("/aquaclean/empleados/**").hasRole("EMPLEADO")
             .antMatchers("/aquaclean/admin/**").hasRole("ADMIN")
+            .antMatchers("/aquaclean/repartidor/**").hasRole("REPARTIDOR")
             .antMatchers("/","/js/**", "/css/**", "/img/**").permitAll()
             .antMatchers("/create-payment-intent").permitAll()
             .antMatchers("/register","/login").permitAll()
@@ -71,7 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
             .invalidateHttpSession(true)
             .clearAuthentication(true)
             .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-            .logoutSuccessUrl("/login?logout")
+            .logoutSuccessUrl("/login")
             .permitAll()
             .and().addFilterBefore(new RedirectFilter(), UsernamePasswordAuthenticationFilter.class)
             
@@ -103,6 +104,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 response.sendRedirect("/aquaclean/empleados");
             }else if (role.equals("ROLE_ADMIN")) {
                 response.sendRedirect("/aquaclean/admin");
+            }else if (role.equals("ROLE_REPARTIDOR")) {
+                response.sendRedirect("/aquaclean/repartidor");
             } else {
                 response.sendRedirect("/aquaclean/login?rol_unknown");
             }
@@ -125,6 +128,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                     response.sendRedirect("/aquaclean/empleados");
                 }else if (role.equals("ROLE_ADMIN")) {
                     response.sendRedirect("/aquaclean/admin");
+                }else if (role.equals("ROLE_REPARTIDOR")) {
+                    response.sendRedirect("/aquaclean/repartidor");
                 }else {
                     response.sendRedirect("/"); // Redirigir a la página principal por defecto
                 }

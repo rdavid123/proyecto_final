@@ -82,7 +82,8 @@ public class EmpleadoControlador {
 				.collect(Collectors.toList()));
 		model.addAttribute("pedidos_en_proceso", pedidoService.findAll().stream().filter(p -> p.getEstado().equals("proceso")).limit(4)
 				.collect(Collectors.toList()));
-		
+		model.addAttribute("pedidos_terminados", pedidoService.findAll().stream().filter(p -> p.getEstado().equals("proceso_terminado")).limit(4)
+				.collect(Collectors.toList()));
 		if(id != null) {
 			model.addAttribute("pedido_update", pedidoService.findPedidoDetallesById( Long.parseLong(id) ));
 		}

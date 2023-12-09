@@ -58,7 +58,7 @@ public class StripeWebhookController {
 				String id_servicio = paymentIntent.getMetadata().get("id_servicio");
 				String fecha_entrega = paymentIntent.getMetadata().get("fecha_entrega");
 				
-				String id_repartidor = paymentIntent.getMetadata().get("id_repartidor");
+				//String id_repartidor = paymentIntent.getMetadata().get("id_repartidor");
 				String cantidad = paymentIntent.getMetadata().get("cantidad_prendas");
 				
 				
@@ -85,7 +85,7 @@ public class StripeWebhookController {
 				nuevoPedido.setServicio(Long.parseLong(id_servicio));
 				nuevoPedido.setDireccion(direccion);
 				nuevoPedido.setFecha_entrega(fecha_entrega);
-				nuevoPedido.setRepartidor(Long.parseLong(id_repartidor));
+				//nuevoPedido.setRepartidor(Long.parseLong(id_repartidor));
 				nuevoPedido.setCantidad_prendas(Integer.parseInt(cantidad));		
 				
 				pedidoService.save(nuevoPedido);

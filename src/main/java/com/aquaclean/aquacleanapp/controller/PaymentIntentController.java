@@ -33,7 +33,7 @@ public class PaymentIntentController {
 				.putMetadata("direccion", stripeRequest.getDireccion())
 				.putMetadata("id_servicio", stripeRequest.getId_servicio())
 				.putMetadata("cantidad_prendas", stripeRequest.getCantidad_prendas())
-				.putMetadata("id_repartidor", stripeRequest.getId_repartidor())
+				//.putMetadata("id_repartidor", stripeRequest.getId_repartidor())
 				.putMetadata("amount", Double.toString(stripeRequest.getAmount()));
 
 		PaymentIntentCreateParams params = builder.build();

@@ -53,3 +53,11 @@ position: absolute;
         transform: translateY(0);
     }
 }
+
+@media (max-width: 768px) {
+    .notification{
+        width: 80%;
+        left: 10%;
+        right: 10%;
+    }
+}

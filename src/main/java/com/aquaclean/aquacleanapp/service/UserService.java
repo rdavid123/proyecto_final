@@ -22,4 +22,6 @@ public interface UserService extends UserDetailsService{
 	public Usuario findUserById(Long id);
 	public UsuarioDetalles findUserDetallesById(Long id);
 	public void update(Usuario u);
+	
+	public void updateEstadoRepartidor(Usuario repartidor);
 }

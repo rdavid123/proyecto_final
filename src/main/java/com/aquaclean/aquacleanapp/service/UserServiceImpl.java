@@ -147,6 +147,18 @@ public class UserServiceImpl implements UserService{
         }
 	}
 
+	@Override
+	public void updateEstadoRepartidor(Usuario repartidor) {
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity<Usuario> requestEntity = new HttpEntity<>(repartidor, headers);
+		ResponseEntity<Void> response = restTemplate.exchange(api_url + "/usersupdate/{id}/", HttpMethod.PUT,requestEntity,Void.class,repartidor.getId() );
+		if (response.getStatusCode().is2xxSuccessful()) {
+            System.out.println("usuario editado exitosamente");
+        } else {
+            System.err.println("Error al editar el usuario. Código de estado: " + response.getStatusCodeValue());
+        }
+	}
+
 	
 	
 }

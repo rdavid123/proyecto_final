@@ -88,8 +88,16 @@ body.dark{
     border-radius: 50%;
 }
 
+.navbar-admin .logo-name .logo_rol{
+    font-size: 13px;
+}
+.navbar-admin.close .logo-name .logo_rol{
+    opacity: 0;
+    pointer-events: none;
+}
+
 .navbar-admin .logo-name .logo_name{
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 600;
     color: var(--main-color);
     margin-left: 14px;

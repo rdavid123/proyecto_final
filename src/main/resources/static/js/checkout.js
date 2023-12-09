@@ -12,7 +12,7 @@ const request = {
     direccion: direccion,
     id_servicio: id_servicio,
     cantidad_prendas: cantidad_prendas,
-    id_repartidor: id_repartidor
+    //id_repartidor: id_repartidor
 }
 
 let elements;
@@ -74,7 +74,9 @@ async function handleSubmit(e) {
         elements,
         confirmParams: {
             // Make sure to change this to your payment completion page
-            return_url: "https://dashboard.stripe.com/test/payments/"+paymentIntentID,
+            
+            return_url: "http://localhost:8080/aquaclean/clientes",
+            //return_url: "https://dashboard.stripe.com/test/payments/"+paymentIntentID,
             receipt_email: emailAddress
         },
     });

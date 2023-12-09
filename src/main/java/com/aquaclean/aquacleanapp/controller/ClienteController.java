@@ -84,7 +84,7 @@ public class ClienteController {
 		int price = (int) pricedouble;
 		
 		/* Asignar repartidor*/
-		
+		/*
 		if(pedidoService.findAll().size() == 0) { //si es el primer pedido se le asigna el primer repartidor
         	p.setRepartidor(userService.findAllRepartidores().get(0).getId());
         }
@@ -95,6 +95,7 @@ public class ClienteController {
 			redirectAttributes.addFlashAttribute("mensaje_error", "No hay un repartidor disponible actualmente. Intentalo luego");
         	return "redirect:/aquaclean/pedido";
 		}
+		*/
 	
 		model.addAttribute("amount",price);
 		model.addAttribute("productName","PedidoReservado");
@@ -106,7 +107,7 @@ public class ClienteController {
 		model.addAttribute("descripcion", p.getDescripcion());
 		model.addAttribute("direccion", p.getDireccion());
 		model.addAttribute("id_servicio", p.getServicio());
-		model.addAttribute("id_repartidor", p.getRepartidor());
+		//model.addAttribute("id_repartidor", p.getRepartidor());
 		model.addAttribute("cantidad_prendas", p.getCantidad_prendas());
 		return "cliente/checkout.html";
 	}
