@@ -3,6 +3,7 @@ package com.aquaclean.aquacleanapp.service;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -135,11 +136,12 @@ public class UserServiceImpl implements UserService{
 		return user;
 	}
 
+
 	@Override
-	public void update(Usuario u) {
+	public void updateUsuario(Usuario u) {
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		HttpEntity<Usuario> requestEntity = new HttpEntity<>(u, headers);
-		ResponseEntity<Void> response = restTemplate.exchange(api_url + "/users/{id}/", HttpMethod.PUT,requestEntity,Void.class,u.getId() );
+		ResponseEntity<Void> response = restTemplate.exchange(api_url + "/usersupdate/{id}/", HttpMethod.PUT,requestEntity,Void.class,u.getId());
 		if (response.getStatusCode().is2xxSuccessful()) {
             System.out.println("usuario editado exitosamente");
         } else {
@@ -148,17 +150,14 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public void updateEstadoRepartidor(Usuario repartidor) {
-		headers.setContentType(MediaType.APPLICATION_JSON);
-		HttpEntity<Usuario> requestEntity = new HttpEntity<>(repartidor, headers);
-		ResponseEntity<Void> response = restTemplate.exchange(api_url + "/usersupdate/{id}/", HttpMethod.PUT,requestEntity,Void.class,repartidor.getId() );
-		if (response.getStatusCode().is2xxSuccessful()) {
-            System.out.println("usuario editado exitosamente");
-        } else {
-            System.err.println("Error al editar el usuario. Código de estado: " + response.getStatusCodeValue());
-        }
+	public List<Usuario> findAllRepartidoresDisponibles() {
+		Usuario[] array = restTemplate.getForObject(api_url+"/repartidores/", Usuario[].class);
+		List<Usuario> repartidores = Arrays.asList(array).stream().filter(r -> r.getEstado_repartidor()== true).collect(Collectors.toList());
+		for(Usuario u : repartidores) {
+			if(u.getAvatar() == null) {
+				u.setAvatar(api_url+"/imagenes/imagenes/default.jpg");
+			}
+		}
+		return repartidores;
 	}
-
-	
-	
 }

@@ -17,7 +17,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.aquaclean.aquacleanapp.model.Pedido;
 import com.aquaclean.aquacleanapp.model.PedidoDetalles;
 import com.aquaclean.aquacleanapp.model.Usuario;
-import com.aquaclean.aquacleanapp.model.UsuarioDetalles;
 import com.aquaclean.aquacleanapp.service.PedidoService;
 import com.aquaclean.aquacleanapp.service.UserService;
 
@@ -38,7 +37,8 @@ public class RepartidorController {
 		model.addAttribute("title", "repartidor");
 		model.addAttribute("user", getUserAuthenticated(authentication));
 		model.addAttribute("pedidos", pedidoService.findAll().stream()
-		.filter(p->p.getEstado().equals("proceso_terminado")).collect(Collectors.toList()));
+				.filter(p -> p.getRepartidor().getId() == getUserAuthenticated(authentication).getId() && p.getEstado().equals("proceso_terminado"))
+				.collect(Collectors.toList()));
 		return "repartidor/inicio.html";
 	}
 	
@@ -46,18 +46,26 @@ public class RepartidorController {
 	public String pendientes(Model model,Authentication authentication) {
 		model.addAttribute("title", "pendientes");
 		model.addAttribute("user", getUserAuthenticated(authentication));
+		
 		List<PedidoDetalles> pedidos_pendientes = pedidoService.findAll().stream()
-				.filter(p -> {
-				    UsuarioDetalles repartidor = p.getRepartidor();
-				    return repartidor != null && repartidor.getId() == getUserAuthenticated(authentication).getId();
-				})
+				.filter(p -> p.getRepartidor().getId() == getUserAuthenticated(authentication).getId() && p.getEstado().equals("en_camino"))
 				.collect(Collectors.toList());
-		model.addAttribute("pendientes", pedidos_pendientes);
+				model.addAttribute("pendientes", pedidos_pendientes);
 		return "repartidor/pendientes.html";
 	}
 	
+	@GetMapping("/repartidor/completados")
+	public String completados(Model model, Authentication authentication) {
+		model.addAttribute("user", getUserAuthenticated(authentication));
+		model.addAttribute("title", "completados");
+		model.addAttribute("pedidos", pedidoService.findAllByIdRepartidor(getUserAuthenticated(authentication).getId()).stream()
+				.filter(p->p.getEstado()
+						.equals("finalizado")).collect(Collectors.toList()));
+		return "repartidor/completados.html";
+	}
+	
 	@PostMapping("/repartidor/accept/pedido/{id_pedido}")
-	public String updatePedio(@PathVariable Long id_pedido ,RedirectAttributes redirect,Authentication authentication) {
+	public String aceptarPedido(@PathVariable Long id_pedido ,RedirectAttributes redirect,Authentication authentication) {
 		if(getUserAuthenticated(authentication).getEstado_repartidor() == true) {
 			Pedido pedido = pedidoService.findById(id_pedido);
 			pedido.setRepartidor(getUserAuthenticated(authentication).getId());
@@ -66,7 +74,7 @@ public class RepartidorController {
 			/* get and update Repartidor */
 			Usuario rep = getUserAuthenticated(authentication);
 			rep.setEstado_repartidor(false);
-			userService.updateEstadoRepartidor(rep); //update estado repartidor
+			userService.updateUsuario(rep); //update estado repartidor
 			redirect.addFlashAttribute("mensajesuccess", "Pedido aceptado");
 			return "redirect:/aquaclean/repartidor";
 		}else {
@@ -74,5 +82,32 @@ public class RepartidorController {
 			return "redirect:/aquaclean/repartidor";
 		}
 		
+	}
+	
+	@PostMapping("/repartidor/cancelar/pedido/{id_pedido}")
+	public String rechazarPedido(@PathVariable Long id_pedido ,RedirectAttributes redirect,Authentication authentication) {
+		Pedido pedido = pedidoService.findById(id_pedido); //buscar pedido a rechazar
+		
+		List<Usuario> repartidores_disponibles = userService.findAllRepartidores().stream().filter(r -> r.getEstado_repartidor()== true && r.getId()!=getUserAuthenticated(authentication).getId()).collect(Collectors.toList());
+		pedido.setRepartidor(repartidores_disponibles.get(0).getId()); //obtener el primer repartidor y asignarlo al pedido
+		if(repartidores_disponibles.isEmpty()) {
+			redirect.addFlashAttribute("mensajesuccess", "No hay un repartidor disponible actualmente. Intentalo luego");
+        	return "redirect:/aquaclean/pedido";
+		}	
+		pedidoService.update(pedido);
+		redirect.addFlashAttribute("mensajesuccess", "Pedido rechazado.");
+		return "redirect:/aquaclean/repartidor";
+	}
+	
+	@PostMapping("/repartidor/finalizar/pedido/{id_pedido}")
+	public String finalizarPedido(@PathVariable Long id_pedido ,RedirectAttributes redirect, Authentication authentication) {
+		Pedido pedido = pedidoService.findById(id_pedido);
+		pedido.setEstado("finalizado");
+		Usuario repartidor = getUserAuthenticated(authentication);
+		repartidor.setEstado_repartidor(true);
+		userService.updateUsuario(repartidor);
+		pedidoService.update(pedido);
+		redirect.addFlashAttribute("mensajesuccess", "Pedido finalizado exitosamente");
+		return "redirect:/aquaclean/repartidor";
 	}
 }

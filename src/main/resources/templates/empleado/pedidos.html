@@ -18,14 +18,14 @@
 		<div class="row dash-content">
 
 			<!-- ALERT -->
-			<div th:if="${pedidos_pendientes.isEmpty()}" class="banner-empty shadow">
+			<!-- <div th:if="${pedidos_pendientes.isEmpty()}" class="banner-empty shadow">
 				<h1 class="fs-3">No se econtraron pedidos</h1>
 				<div class="pb-3">
 					<p>Estas interesado en nuestros servicios?</p>
 				</div>
 				<a class="btn btn-secondary" th:href="@{/aquaclean/clientes}">Aceptar</a>
 
-			</div>
+			</div> -->
 			<!-- END ALERT -->
 
 
@@ -206,15 +206,18 @@
 										<small>Entrega</small>
 										<small class="state" th:text="${#dates.format(p.fecha_entrega, 'dd/MM/yyyy - h:mm a')}"></small>															
 									</div>
-									<div class="d-flex justify-content-between">
+									<!-- <div class="d-flex justify-content-between">
 										<small>ID pedido</small>				
 										<small th:text="${p.id}"></small>						
-									</div>
+									</div> -->
 									<div class="d-flex justify-content-between">
 										<small>cliente</small>
-										<small th:text="${p.cliente.nombre+ ' '+p.cliente.apellido}"></small>	
+										<small th:text="${p.cliente.getFullName()}"></small>	
 									</div>
-									
+									<div class="d-flex justify-content-between">
+										<small>repartidor</small>
+										<small th:text="${p.repartidor.getFullName()}"></small>	
+									</div>
 									<!-- button -->
 									
 

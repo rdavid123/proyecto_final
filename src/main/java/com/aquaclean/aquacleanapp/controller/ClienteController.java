@@ -64,8 +64,9 @@ public class ClienteController {
 		return "cliente/inicio.html";
 	}
 	
+	/* formulario para hacer un pedido*/
 	@GetMapping("/pedido")
-	public String pedido(Model model,Authentication authentication, 
+	public String FormularioNewpedido(Model model,Authentication authentication, 
 			@RequestParam(name = "id", required = false) Integer id) {
 		model.addAttribute("id_servicio", id);
 		model.addAttribute("pedido",new Pedido());
@@ -80,24 +81,22 @@ public class ClienteController {
 	public String saveNewPedido(Model model, @ModelAttribute Pedido p,
 			Authentication authentication, RedirectAttributes redirectAttributes,
 			@ModelAttribute StripePaymentRequest request) {
-		double pricedouble = p.calcularTotal();
-		int price = (int) pricedouble;
+		
 		
 		/* Asignar repartidor*/
 		/*
 		if(pedidoService.findAll().size() == 0) { //si es el primer pedido se le asigna el primer repartidor
         	p.setRepartidor(userService.findAllRepartidores().get(0).getId());
         }
-		
-		List<Usuario> repartidores_disponibles = userService.findAllRepartidores().stream().filter(r -> r.getEstado_repartidor()== true).collect(Collectors.toList());
+		List<Usuario> repartidores_disponibles = userService.findAllRepartidoresDisponibles();
 		p.setRepartidor(repartidores_disponibles.get(0).getId());
 		if(repartidores_disponibles.isEmpty()) {
 			redirectAttributes.addFlashAttribute("mensaje_error", "No hay un repartidor disponible actualmente. Intentalo luego");
         	return "redirect:/aquaclean/pedido";
-		}
-		*/
+		}	*/
 	
-		model.addAttribute("amount",price);
+		double pricedouble = p.calcularTotal();
+		model.addAttribute("amount",(int) pricedouble);
 		model.addAttribute("productName","PedidoReservado");
 		model.addAttribute("publicKey", publicKey);
 		model.addAttribute("id_cliente", getUserAuthenticated(authentication).getId());
@@ -107,12 +106,12 @@ public class ClienteController {
 		model.addAttribute("descripcion", p.getDescripcion());
 		model.addAttribute("direccion", p.getDireccion());
 		model.addAttribute("id_servicio", p.getServicio());
-		//model.addAttribute("id_repartidor", p.getRepartidor());
+		model.addAttribute("id_repartidor", p.getRepartidor());
 		model.addAttribute("cantidad_prendas", p.getCantidad_prendas());
 		return "cliente/checkout.html";
 	}
 	
-	
+	/*
 	@PostMapping("/clientes/pedido/save/exact")
 	public String savePedidoPesoExacto(@ModelAttribute Pedido p, RedirectAttributes redirectAttributes,
 			Authentication authentication, String servicio) {
@@ -162,6 +161,7 @@ public class ClienteController {
 		redirectAttributes.addFlashAttribute("mensaje", "Pedido agregado exitosamente");
 		return "redirect:/aquaclean/pedido";
 	}
+	*/
 	
 	@GetMapping("/clientes/pedidos")
 	public String servicios(Model model,Authentication authentication) {

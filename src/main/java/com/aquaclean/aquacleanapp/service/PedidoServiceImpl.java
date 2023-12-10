@@ -2,6 +2,8 @@ package com.aquaclean.aquacleanapp.service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -82,6 +84,13 @@ public class PedidoServiceImpl implements PedidoService{
 			}
 		}
 		return p;
+	}
+
+	@Override
+	public List<PedidoDetalles> findAllByIdRepartidor(Long id) {
+		PedidoDetalles[] array = restTemplate.getForObject(api_url+"/pedidosdetail/", PedidoDetalles[].class);
+		return Arrays.asList(array).stream().filter(p->p.getRepartidor().getId()==id).collect(Collectors.toList());
+	
 	}
 
 }

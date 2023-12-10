@@ -11,4 +11,6 @@ public interface PedidoService {
 	public PedidoDetalles findPedidoDetallesById(Long id);
 	public Pedido save(Pedido p);
 	public void update(Pedido p);
+	
+	public List<PedidoDetalles> findAllByIdRepartidor(Long id);
 }

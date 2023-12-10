@@ -2,9 +2,7 @@ package com.aquaclean.aquacleanapp.controller;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.aquaclean.aquacleanapp.model.Pedido;
-import com.aquaclean.aquacleanapp.model.PedidoDetalles;
 import com.aquaclean.aquacleanapp.model.Usuario;
 import com.aquaclean.aquacleanapp.service.PedidoService;
 import com.aquaclean.aquacleanapp.service.UserService;
@@ -121,10 +118,19 @@ public class EmpleadoControlador {
 	}
 	@PostMapping("/empleados/pedidos/update/terminado/{id}")
 	public String updatePedidoTerminado(@PathVariable Long id ,RedirectAttributes redirect) {
+			
 		Pedido pedido = pedidoService.findById(id);
 		pedido.setEstado("proceso_terminado");
+		
+		// asignar repartidor
+		pedido.setRepartidor(userService.findAllRepartidoresDisponibles().get(0).getId());
+		if(userService.findAllRepartidoresDisponibles().isEmpty()) {
+			redirect.addFlashAttribute("mensaje_error", "No hay un repartidor disponible actualmente. Intentalo luego");
+        	return "redirect:/aquaclean/pedido";
+		}
+		
 		pedidoService.update(pedido);
-		redirect.addFlashAttribute("mensajesuccess", "Pedido editado exitosamente");
+		redirect.addFlashAttribute("mensajesuccess", "Pedido editado exitosamente, repartidor asignado");
 		return "redirect:/aquaclean/empleados/pedidos";
 	}
 }
