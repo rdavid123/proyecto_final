@@ -32,6 +32,7 @@
 								<input type="file" class="form-control" id="avatar" accept="image/*">
 								<button type="button" class="btn btn-secondary" onclick="updateProfileImg()">Guardar</button>
 							</div>
+							<input type="hidden" id="id" th:value="${user.id}">
 							
 							<p class="pt-2">El formato debe ser JPEG o PNG y no puede superar los 10 MB.</p>
 						</form>
@@ -41,28 +42,28 @@
 		</div>
 
 		<div class="card mt-3">
-			<form method="post">
+			<form method="post" th:action="@{/aquaclean/settings/profile/update/{id}(id=${user.id})}" th:object="${u}">
 				<div class="card-body">
 					<div class="my-3">
 						<p>Nombre</p>
-						<input type="text" class="form-control" id="nombre" th:value="${user.nombre}" />
+						<input type="text" class="form-control" name="nombre" th:value="${user.nombre}" />
 					</div>
 					<div class="my-3">
 						<p>Apellido</p>
-						<input type="text" class="form-control" id="apellido" th:value="${user.apellido}" />
+						<input type="text" class="form-control" name="apellido" th:value="${user.apellido}" />
 					</div>
 					<div class="my-3">
 						<p>Teléfono</p>
-						<input type="text" class="form-control" id="telefono" th:value="${user.telefono}" />
+						<input type="text" class="form-control" name="telefono" th:value="${user.telefono}" />
 					</div>
 					<div class="my-3">
 						<p>DNI</p>
-						<input type="text" class="form-control" id="dni" th:value="${user.dni}" />
+						<input type="text" class="form-control" name="dni" th:value="${user.dni}" />
 					</div>
-					<input type="hidden" class="form-control" id="id" th:value="${user.id}" />
+					
 				</div>
 				<div class="card-footer d-flex justify-content-end">
-					<button type="button" class="btn btn-secondary"onclick="updateProfile()">Guardar cambios</button>
+					<button type="submit" class="btn btn-secondary">Guardar cambios</button>
 				</div>
 			</form>
 		</div>
@@ -98,38 +99,6 @@
 		}
 	</script>
 	
-	<script>
-		function updateProfile() {
-			var id = document.getElementById('id').value;
-			var nombre = document.getElementById('nombre').value;
-        	var apellido = document.getElementById('apellido').value;
-        	var telefono = document.getElementById('telefono').value;
-        	var dni = document.getElementById('dni').value;
-        	
-			var formData = new FormData();
-        	formData.append('nombre', nombre);
-        	formData.append('apellido', apellido);
-        	formData.append('telefono', telefono);
-        	formData.append('dni', dni);
-
-			fetch('http://127.0.0.1:8000/users/'+id+'/', {
-				method: 'PATCH',
-				body: formData
-			})
-				.then(response => {
-					if (!response.ok) {
-						throw new Error('Network response was not ok');
-					}
-					return response.json();
-				})
-				.then(data => {
-					console.log('Success:', data);
-					window.location.reload();
-				})
-				.catch(error => {
-					console.error('Error:', error);
-				});
-		}
-	</script>
+	
 </body>
 </html>

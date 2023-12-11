@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.aquaclean.aquacleanapp.model.PagoDetalles;
 import com.aquaclean.aquacleanapp.model.Pedido;
-import com.aquaclean.aquacleanapp.model.PedidoDetalles;
-import com.aquaclean.aquacleanapp.model.Usuario;
 import com.aquaclean.aquacleanapp.service.PagoService;
 import com.aquaclean.aquacleanapp.service.PedidoService;
 import com.aquaclean.aquacleanapp.service.UserService;

@@ -4,7 +4,6 @@ import java.util.List;
 
 
 import org.springframework.security.core.userdetails.UserDetailsService;
-
 import com.aquaclean.aquacleanapp.model.Usuario;
 import com.aquaclean.aquacleanapp.model.UsuarioDetalles;
 
@@ -22,5 +21,5 @@ public interface UserService extends UserDetailsService{
 	public UsuarioDetalles findUserByEmail(String email);
 	public Usuario findUserById(Long id);
 	public UsuarioDetalles findUserDetallesById(Long id);
-	public void updateUsuario(Usuario u);
+	public void updateUsuario(Usuario u); //no img
 }

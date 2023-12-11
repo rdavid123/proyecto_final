@@ -1,6 +1,5 @@
 package com.aquaclean.aquacleanapp.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.aquaclean.aquacleanapp.model.Pedido;
-import com.aquaclean.aquacleanapp.model.PedidoDetalles;
 import com.aquaclean.aquacleanapp.model.Prendas;
 import com.aquaclean.aquacleanapp.model.StripePaymentRequest;
 import com.aquaclean.aquacleanapp.model.Usuario;

@@ -1,6 +1,5 @@
 package com.aquaclean.aquacleanapp.model;
 
-import java.math.BigDecimal;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -18,21 +17,14 @@ public class Pedido {
 	private String descripcion;
 	private Long cliente;
 	private Long repartidor;
-	
 	private Double peso;
 	
 
-	public Pedido() {
-	}
+	public Pedido() {}
 
-	
-
-	
-	
 	public Pedido(Long id, String fecha_pedido, String fecha_entrega, String direccion, String estado,
 			Integer cantidad_prendas, Long servicio, String tipo_entrega, String descripcion, Long cliente,
 			Long repartidor, Double peso) {
-		super();
 		this.id = id;
 		this.fecha_pedido = fecha_pedido;
 		this.fecha_entrega = fecha_entrega;
@@ -46,10 +38,6 @@ public class Pedido {
 		this.repartidor = repartidor;
 		this.peso = peso;
 	}
-
-
-
-
 
 	public Long getId() {
 		return id;

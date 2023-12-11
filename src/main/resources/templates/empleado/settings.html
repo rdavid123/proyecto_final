@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="empleado/layout_empleado :: head">
+</head>
+<body>
+	<div th:replace="empleado/layout_empleado :: navbar"></div>
+
+	<div class="notification show-notification" th:if="${mensajesuccess}" style="background-color: #36d300;">
+		<span th:text="${mensajesuccess}"></span>
+		<span class="close-icon" onclick="closeNotification()">
+			<i class="fas fa-times-circle"></i>
+		</span>
+	</div>
+
+	<section class="dashboard">
+		<!-- TopBar -->
+		<div th:replace="empleado/layout_empleado :: top"></div>
+		<div class="row dash-content">
+
+			<!-- ALERT -->
+			<!-- <div th:if="${pedidos_pendientes.isEmpty()}" class="banner-empty shadow">
+				<h1 class="fs-3">No se econtraron pedidos</h1>
+				<div class="pb-3">
+					<p>Estas interesado en nuestros servicios?</p>
+				</div>
+				<a class="btn btn-secondary" th:href="@{/aquaclean/clientes}">Aceptar</a>
+
+			</div> -->
+			<!-- END ALERT -->
+
+
+			
+		</div>
+	</section>
+
+	<div th:replace="empleado/layout_empleado :: footer"></div>
+</body>
+</html>

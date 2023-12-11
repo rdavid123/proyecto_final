@@ -1,5 +1,7 @@
 package com.aquaclean.aquacleanapp.service;
 
+import java.util.Arrays;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -29,6 +31,11 @@ public class PagoServiceImpl implements PagoService{
 		Pago p = pago.getBody();
 		return p;
 	}
+	
+	 public List<Pago> findAll() {
+		   ResponseEntity<Pago[]> response = restTemplate.getForEntity(api_url + "/pagos/", Pago[].class);
+		   return Arrays.asList(response.getBody());
+		 }
 
 	@Override
 	public void save(PagoDetalles pago) {
@@ -36,5 +43,13 @@ public class PagoServiceImpl implements PagoService{
 		HttpEntity<PagoDetalles> request = new HttpEntity<>(pago, headers);
 		restTemplate.exchange(api_url + "/pagosdetail/", HttpMethod.POST, request, PagoDetalles.class);
 	}
+	
+	 public Double sumarPagos() {
+		   List<Pago> pagos = findAll();
+		   return pagos.stream()
+		             .mapToDouble(Pago::getMonto)
+		             .sum();
+		 }
+
 
 }

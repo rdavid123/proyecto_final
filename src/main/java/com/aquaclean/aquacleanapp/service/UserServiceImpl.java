@@ -1,5 +1,7 @@
 package com.aquaclean.aquacleanapp.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -7,6 +9,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -16,7 +20,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
+
+import com.aquaclean.aquacleanapp.model.RequestUsuario;
 import com.aquaclean.aquacleanapp.model.Usuario;
 import com.aquaclean.aquacleanapp.model.UsuarioDetalles;
 
@@ -138,18 +150,6 @@ public class UserServiceImpl implements UserService{
 
 
 	@Override
-	public void updateUsuario(Usuario u) {
-		headers.setContentType(MediaType.APPLICATION_JSON);
-		HttpEntity<Usuario> requestEntity = new HttpEntity<>(u, headers);
-		ResponseEntity<Void> response = restTemplate.exchange(api_url + "/usersupdate/{id}/", HttpMethod.PUT,requestEntity,Void.class,u.getId());
-		if (response.getStatusCode().is2xxSuccessful()) {
-            System.out.println("usuario editado exitosamente");
-        } else {
-            System.err.println("Error al editar el usuario. Código de estado: " + response.getStatusCodeValue());
-        }
-	}
-
-	@Override
 	public List<Usuario> findAllRepartidoresDisponibles() {
 		Usuario[] array = restTemplate.getForObject(api_url+"/repartidores/", Usuario[].class);
 		List<Usuario> repartidores = Arrays.asList(array).stream().filter(r -> r.getEstado_repartidor()== true).collect(Collectors.toList());
@@ -159,5 +159,13 @@ public class UserServiceImpl implements UserService{
 			}
 		}
 		return repartidores;
+	}
+	
+	@Override
+	public void updateUsuario(Usuario u) {
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity<Usuario> requestEntity = new HttpEntity<>(u, headers);
+		restTemplate.exchange(api_url + "/usersupdate/{id}/", HttpMethod.PUT,requestEntity,Void.class,u.getId());
+		
 	}
 }
