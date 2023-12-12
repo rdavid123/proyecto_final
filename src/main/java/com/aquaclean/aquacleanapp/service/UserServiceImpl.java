@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService{
 		List<Usuario> clientes = Arrays.asList(array);
 		for(Usuario u : clientes) {
 			if(u.getAvatar() == null) {
-				u.setAvatar(api_url+"/imagenes/imagenes/default.jpg");
+				u.setAvatar(api_url+"media/imagenes/default.jpg");
 			}
 		}
 		return clientes;
@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService{
 		List<Usuario> empleados = Arrays.asList(array);
 		for(Usuario u : empleados) {
 			if(u.getAvatar() == null) {
-				u.setAvatar(api_url+"/imagenes/imagenes/default.jpg");
+				u.setAvatar(api_url+"media/imagenes/default.jpg");
 			}
 		}
 		return empleados;
@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService{
 		List<Usuario> repartidores = Arrays.asList(array);
 		for(Usuario u : repartidores) {
 			if(u.getAvatar() == null) {
-				u.setAvatar(api_url+"/imagenes/imagenes/default.jpg");
+				u.setAvatar(api_url+"media/imagenes/default.jpg");
 			}
 		}
 		return repartidores;
@@ -123,7 +123,7 @@ public class UserServiceImpl implements UserService{
 		ResponseEntity<Usuario> response = restTemplate.getForEntity(api_url+"/users/"+id+"/", Usuario.class);
 		Usuario user = response.getBody();
 		if(user.getAvatar() == null) {
-			user.setAvatar(api_url+"/imagenes/imagenes/default.jpg");
+			user.setAvatar(api_url+"media/imagenes/default.jpg");
 		}
 		return user;
 	}
@@ -133,7 +133,7 @@ public class UserServiceImpl implements UserService{
 		ResponseEntity<UsuarioDetalles> response = restTemplate.getForEntity(api_url+"/users_detail/"+id+"/", UsuarioDetalles.class);
 		UsuarioDetalles user = response.getBody();
 		if(user.getAvatar() == null) {
-			user.setAvatar(api_url+"/imagenes/imagenes/default.jpg");
+			user.setAvatar(api_url+"media/imagenes/default.jpg");
 		}
 		return user;
 	}
@@ -145,7 +145,7 @@ public class UserServiceImpl implements UserService{
 		List<Usuario> repartidores = Arrays.asList(array).stream().filter(r -> r.getEstado_repartidor()== true).collect(Collectors.toList());
 		for(Usuario u : repartidores) {
 			if(u.getAvatar() == null) {
-				u.setAvatar(api_url+"/imagenes/imagenes/default.jpg");
+				u.setAvatar(api_url+"media/imagenes/default.jpg");
 			}
 		}
 		return repartidores;

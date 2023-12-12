@@ -259,7 +259,33 @@ body.dark .menu-bar .mode i.moon{
 body.dark .switch::before{
     left: 25px;
 }
+body.dark .dashboard{
+    background-color: var(--body-color);
+}
 
+/* color card admin*/
+.card-admin{
+    background-color: var(--sidebar-color);
+}
+body.dark .card-admin{
+    background-color: var(--sidebar-color);
+}
+
+/* number size list*/
+.size-number{
+    width: 30px;
+    height: 30px;
+    background-color: var(--box1-color);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.size-number span{
+    color: var(--title-icon-color);
+}
+
+/* home */
 .home{
     padding: 8px 40px;
     position: relative;
@@ -284,7 +310,6 @@ body.dark .switch::before{
 .dashboard{
     position: relative;
     left: 250px;
-    background-color: var(--panel-color);
     min-height: 100vh;
     width: calc(100% - 250px);
     padding: 10px 14px;

@@ -75,7 +75,7 @@ async function handleSubmit(e) {
         confirmParams: {
             // Make sure to change this to your payment completion page
             
-            return_url: "http://localhost:8080/aquaclean/clientes",
+            return_url: "https://aquacleanweb.onrender.com/aquaclean/clientes",
             //return_url: "https://dashboard.stripe.com/test/payments/"+paymentIntentID,
             receipt_email: emailAddress
         },
