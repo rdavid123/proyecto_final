@@ -7,9 +7,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import com.aquaclean.aquacleanapp.model.Usuario;
+import com.aquaclean.aquacleanapp.model.UsuarioDetalles;
 import com.aquaclean.aquacleanapp.service.PedidoService;
 import com.aquaclean.aquacleanapp.service.UserService;
 import com.aquaclean.aquacleanapp.service.PagoService;
@@ -84,6 +88,19 @@ public class AdminController {
 		model.addAttribute("user", getUserAuthenticated(authentication));
 		model.addAttribute("title", "repartidores");
 		return "admin/repartidores.html";
+	}
+	
+	@PostMapping("/register/empleado")
+	public String registerEmpleado(@ModelAttribute UsuarioDetalles emp, RedirectAttributes redirect) {
+		userService.registerEmpleado(emp);
+		redirect.addFlashAttribute("register_exito", "Empleado registrado");
+		return "redirect:/aquaclean/admin/empleados";
+	}
+	@PostMapping("/register/repartidor")
+	public String registerRepartidor(@ModelAttribute UsuarioDetalles rep, RedirectAttributes redirect) {
+		userService.registerRepartidor(rep);
+		redirect.addFlashAttribute("register_exito", "Repartidor registrado");
+		return "redirect:/aquaclean/admin/repartidores";
 	}
 	
 	

@@ -5,6 +5,12 @@
     <!-- sidebar -->
     <div th:replace="admin/layout_admin :: sidebar"></div>
 
+    <div class="notification show-notification" th:if="${register_exito}" style="background-color: #36d300;">
+		<span th:text="${register_exito}"></span>
+		<span class="close-icon" onclick="closeNotification()">
+			<i class="fas fa-times-circle"></i>
+		</span>
+	</div>
     <!-- contenido -->
     <div class="dashboard">
 
@@ -75,38 +81,38 @@
                 </div>
                 <div class="card-body">
                     
-                    <form action="">
+                    <form th:action="@{/aquaclean/register/empleado}" method="post" th:object="${emp}">
                         <div class="row mb-3">
                             <div class="col-6">
-                                <input type="text" class="form-control" placeholder="nombre">
+                                <input type="text" class="form-control" name="nombre" placeholder="nombre">
                             </div>
                             <div class="col-6">
-                                <input type="text" class="form-control" placeholder="apellidos">
+                                <input type="text" class="form-control" name="apellido" placeholder="apellidos">
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-12">
-                                <input type="text" class="form-control" placeholder="correo">
+                                <input type="text" class="form-control" name="correo" placeholder="correo">
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-6">
-                                <input type="text" class="form-control" placeholder="teléfono">
+                                <input type="text" class="form-control" name="telefono" placeholder="teléfono">
                             </div>
                             <div class="col-6">
-                                <input type="text" class="form-control" placeholder="DNI">
+                                <input type="text" class="form-control" name="dni" placeholder="DNI">
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-12 mb-3">
-                                <input type="text" class="form-control" placeholder="contraseña">
+                                <input type="password" class="form-control" name="password" placeholder="contraseña">
                             </div>
                             <div class="col-12">
-                                <input type="text" class="form-control" placeholder="repetir contraseña">
+                                <input type="password" class="form-control" placeholder="repetir contraseña">
                             </div>
                         </div>
                         <div>
-                            <button class="btn btn-success">Agregar</button>
+                            <button type="submit" class="btn btn-success">Agregar</button>
                         </div>
                     </form>
                 </div>

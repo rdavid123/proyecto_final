@@ -19,6 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.aquaclean.aquacleanapp.model.Role;
 import com.aquaclean.aquacleanapp.model.Usuario;
 import com.aquaclean.aquacleanapp.model.UsuarioDetalles;
 
@@ -34,8 +35,6 @@ public class UserServiceImpl implements UserService{
     private RestTemplate restTemplate = new RestTemplate();
     private HttpHeaders headers = new HttpHeaders();
     
-    @Autowired
-    private RoleService roleService;
     
 	@Override
 	public List<UsuarioDetalles> findAll() {
@@ -98,11 +97,18 @@ public class UserServiceImpl implements UserService{
 	
 	@Override
 	public void registerEmpleado(UsuarioDetalles usu) {
-	    usu.setPassword(usu.getPassword());
 	    System.out.println(usu.toString());
 	    headers.setContentType(MediaType.APPLICATION_JSON);
 	    HttpEntity<UsuarioDetalles> request = new HttpEntity<>(usu, headers);
 	    restTemplate.exchange(api_url+"/register/empleado/",HttpMethod.POST, request, Usuario.class);
+	}
+	
+	@Override
+	public void registerRepartidor(UsuarioDetalles usu) {
+		System.out.println(usu.toString());
+	    headers.setContentType(MediaType.APPLICATION_JSON);
+	    HttpEntity<UsuarioDetalles> request = new HttpEntity<>(usu, headers);
+	    restTemplate.exchange(api_url+"/register/repartidor/",HttpMethod.POST, request, Usuario.class);
 	}
 
 
@@ -166,4 +172,5 @@ public class UserServiceImpl implements UserService{
 		restTemplate.exchange(api_url + "/usersupdate/{id}/", HttpMethod.PUT,requestEntity,Void.class,u.getId());
 		
 	}
+
 }
