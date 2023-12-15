@@ -548,3 +548,36 @@ body.dark .switch:before{
     right: 15px;
 }
 
+
+
+/* Modal */
+.modal-empleado {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #111111bd;
+	z-index: 100;
+}
+  
+.modal-content-empleado {
+	background-color: var(--panel-color);
+	margin: 10% auto;
+	width: 80%;
+	max-width: 1050px;
+	color: var(--text-color);
+}
+  
+.close {
+	color: var(--text-color);
+	float: right;
+	font-size: 20px;
+}
+  
+.close:hover,
+.close:focus {
+	text-decoration: none;
+	cursor: pointer;
+}  
