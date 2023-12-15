@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeLeaf.org">
+
+<head th:fragment="head">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap"
+        rel="stylesheet">
+    <!-- css -->
+    <link th:href='@{/css/style_repartidor.css}' rel='stylesheet'>
+    <link th:href='@{/css/global_styles.css}' rel='stylesheet'>
+    <link rel="stylesheet" type="text/css" href="/css/notification.css">
+    <!-- icons -->
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="shortcut icon" th:href="@{/img/aquapin.png}" type="image/x-icon">
+    <!-- title -->
+    <title th:text="${title}"></title>
+</head>
+<body>
+    <nav th:fragment="navbar" class="navbar">
+        <div class="navbar-containter">
+            <div class="logo">
+                Aqua<span>Clean</span>
+            </div>
+            <div class="navbar-links">
+                <a class="nav-link" th:href="@{/aquaclean/repartidor}">Disponibles</a>
+                <a class="nav-link" th:href="@{/aquaclean/repartidor/pendientes}">Aceptados</a>
+                <a class="nav-link" th:href="@{/aquaclean/repartidor/completados}">Completados</a>               
+            </div>
+        </div>
+        <a class="avatar-user"><img th:src="${user.avatar}" alt=""></a>
+        <div class="dropdown">
+            <a href="">
+                <i class='bx bxs-user'></i>
+                <small>Perfil</small>
+            </a>
+            <a href="">
+                <i class='bx bxs-cog'></i>
+                <small>Configuración</small>
+            </a>
+            <a th:href="@{/logout}">
+                <i class='bx bxs-log-out'></i>
+                <small>Logout</small>
+            </a>
+        </div>
+    </nav>
+
+    <div th:fragment="scripts">
+		<script th:src="@{/js/notification.js}"></script>
+        <script th:src="@{/js/repartidor/repartidor.js}"></script>
+	</div>
+</body>

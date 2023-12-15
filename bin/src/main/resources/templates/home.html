@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeLeaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aqua Clean</title>
+    <!-- fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <!-- styles -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/normalize.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/home/style.css}">
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" 
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- box icons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="shortcut icon" th:href="@{/img/aquapin.png}" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <a href="#" class="logo">Aqua<span>Clean</span></a>
+        <i class="bx bx-menu" id="menu-icon"></i>
+        <ul class="navbar">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#menu">Services</a></li>
+            <li><a href="#about">Philosophy</a></li>
+            <li><a href="#footer">Contact</a></li>
+            <li>
+				<a th:href="@{/login}" class="btn-login">
+					<span th:text="${loginUser}"></span>
+				</a>
+			</li>
+		
+        </ul>
+    </header>
+ 
+    <section class="home" id="home">
+        <div class="home-text">
+            <h1>AQUA CLEAN</h1>
+            <p>Transformamos la manera en que experimentas la lavandería. En AquaClean, nos esforzamos por ofrecer soluciones innovadoras y servicios de alta calidad que simplifican tu vida diaria. Descubre la frescura y comodidad que brindamos a través de nuestro compromiso con la excelencia en cada lavado.</p>
+            <a href="#" class="btn-download">
+                <span class="container-btn-download">
+                    <i class="fa-brands fa-google-play"></i>
+                    <span class="section-download">
+                        <small>GET IT ON</small>
+                        <span>Google Play</span>
+                    </span>
+                </span>
+            </a>
+        </div>
+        <div class="home-img">
+            <img src="img/merry.svg" >
+        </div>
+    </section>
+    
+    <section class="menu" id="menu">
+        <div class="header-menu">
+            <h1>Nuestros Filosofía</h1>
+            <p>En AquaClean, creemos en una filosofía centrada en el cliente que se refleja en cada aspecto de nuestros servicios.</p>
+        </div>
+        <div class="menu-container">
+            <div class="box-menu">
+                <div class="box-img">
+                    <i class='bx bxs-package' ></i>
+                </div>
+                <h3>Escoges nuestro servicio</h3>
+                <p>Ofrecemos a nuestros clientes la libertad de escoger nuestro servicio que mejor se adapte a sus necesidades específicas. Creemos en la flexibilidad y personalización para brindar una experiencia de lavandería única.</p>
+            </div>
+
+            <div class="box-menu">
+                <div class="box-img">
+                    <i class='bx bxs-calendar-check' ></i>
+                </div>
+                <h3>Entregas a tiempo</h3>
+                <p>En AquaClean, comprendemos la importancia del tiempo. Nos comprometemos a realizar entregas a tiempo, garantizando que tus prendas estén listas cuando las necesitas. La puntualidad es una parte fundamental de nuestra filosofía de servicio.</p>
+            </div>
+
+            <div class="box-menu">
+                <div class="box-img">
+                    <i class='bx bxs-bar-chart-alt-2' ></i>
+                </div>
+                <h3>Crezcamos juntos</h3>
+                <p>Creemos en el crecimiento conjunto con nuestros clientes. Cada interacción es una oportunidad para fortalecer nuestra relación y mejorar continuamente. Juntos, crecemos en calidad, confianza y excelencia.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="about" id="about">
+        <div class="about-text">
+            <h1>Sobre Nosotros</h1>
+            <p> En AquaClean, nuestro compromiso va más allá de proporcionar servicios de lavandería excepcionales. Queremos que conozcas quiénes somos y cómo hacemos la diferencia.
+				  </p>
+            
+            <div class="cards-about">
+                <div class="about-card">
+                    <div class="icon-card-about">
+                        <i class='bx bxs-check-shield' ></i>
+                    </div>
+                    <div class="text-card-about">
+                        <span>Seguro y protegido</span>
+                        <p>
+							Priorizamos la seguridad y protección de tus prendas. Con rigurosos protocolos desde la recepción hasta la entrega, garantizamos que tu ropa esté siempre en buenas manos. Confía en AquaClean para mantener tus prendas seguras y protegidas en todo momento.
+                        </p>
+                    </div>
+                </div>
+                <div class="about-card">
+                    <div class="icon-card-about">
+                        <i class='bx bxs-group'></i>
+                    </div>
+                    <div class="text-card-about">
+                        <span>Equipos de expertos</span>
+                        <p>
+							Detrás de cada lavado hay un equipo de expertos apasionados por su trabajo. Nuestro equipo está comprometido con la excelencia en cada detalle. Con habilidades especializadas y conocimiento en constante crecimiento, nos esforzamos por superar tus expectativas en cada servicio.
+						</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="about-img">
+            <img src="img/about-us.jpg" >
+        </div>
+    </section>
+
+    <section class="container-map">
+        <div class="header-map">
+            <h1>Encuentranos</h1>
+            <p>Descubre nuestra ubicación y ven a visitarnos. Estamos aquí para atenderte con excelencia en nuestro local. ¡Esperamos verte pronto!</p>
+        </div>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1974.8792522301942!2d-79.04207964073612!3d-8.126051933696111!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91ad3debda7becd7%3A0xb05f99d531a9304a!2sLavanderia%20Aqua%20Clean!5e0!3m2!1ses!2spe!4v1698035023643!5m2!1ses!2spe" width="100%" height="450" style="border: 0;" 
+        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </section>
+
+    <footer class="footer" id="footer">
+        <div class="footer-content">
+            <h3 class="logo-footer">Aqua<span>Clean</span></h3>
+            <p class="text-gray">Hacemos tu vida más fácil.</p>
+            <div class="icons-footer">
+                <a href="https://www.facebook.com/LavanderiaAquaCleanTrujillo" target="_blank"><i class='bx bxl-facebook'></i></a>
+                <a href="https://www.instagram.com/lavanderiaaquacleantrujillo" target="_blank"><i class='bx bxl-instagram'></i></a>
+                
+            </div>
+        </div>
+        <div class="footer-content">
+            <h4>Links</h4>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Blog</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">Support</a></li>
+            </ul>
+        </div>
+        <div class="footer-content">
+            <h4>Company</h4>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Blog</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">Support</a></li>
+            </ul>
+        </div>
+        <div class="footer-content">
+            <h4>Information</h4>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Blog</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">Support</a></li>
+            </ul>
+        </div>
+    </footer>
+    <div class="bottom-footer">
+        <span>Copyright © 2023 Aquaclean</span>
+        <span>All Rights Reserved</span>
+    </div>
+ 
+    <script th:src="@{/js/home/navbar.js}"></script>
+</body>
+</html>
