@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService{
     private HttpHeaders headers = new HttpHeaders();
     
     @Autowired
-	private BCryptPasswordEncoder passwordEncoder;
+    private RoleService roleService;
     
 	@Override
 	public List<UsuarioDetalles> findAll() {
@@ -79,23 +79,30 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	@Override
-	public void registerAdmin(Usuario usu) {
-	    usu.setPassword(passwordEncoder.encode(usu.getPassword()));
-	    usu.setRol((long) 1);
+	public void registerAdmin(UsuarioDetalles usu) {
+	    usu.setPassword(usu.getPassword());
 	    System.out.println(usu.toString());
 	    headers.setContentType(MediaType.APPLICATION_JSON);
-	    HttpEntity<Usuario> request = new HttpEntity<>(usu, headers);
-	    restTemplate.exchange(api_url+"/users/",HttpMethod.POST, request, Usuario.class);
+	    HttpEntity<UsuarioDetalles> request = new HttpEntity<>(usu, headers);
+	    restTemplate.exchange(api_url+"/register/admin/",HttpMethod.POST, request, Usuario.class);
 	}
 
 	@Override
-	public void registerCliente(Usuario usu) {
-	    usu.setPassword(passwordEncoder.encode(usu.getPassword()));
-	    usu.setRol((long) 2);
+	public void registerCliente(UsuarioDetalles usu) {
+	    usu.setPassword(usu.getPassword());
 	    System.out.println(usu.toString());
 	    headers.setContentType(MediaType.APPLICATION_JSON);
-	    HttpEntity<Usuario> request = new HttpEntity<>(usu, headers);
-	    restTemplate.exchange(api_url+"/users/",HttpMethod.POST, request, Usuario.class);
+	    HttpEntity<UsuarioDetalles> request = new HttpEntity<>(usu, headers);
+	    restTemplate.exchange(api_url+"/register/cliente/",HttpMethod.POST, request, Usuario.class);
+	}
+	
+	@Override
+	public void registerEmpleado(UsuarioDetalles usu) {
+	    usu.setPassword(usu.getPassword());
+	    System.out.println(usu.toString());
+	    headers.setContentType(MediaType.APPLICATION_JSON);
+	    HttpEntity<UsuarioDetalles> request = new HttpEntity<>(usu, headers);
+	    restTemplate.exchange(api_url+"/register/empleado/",HttpMethod.POST, request, Usuario.class);
 	}
 
 
@@ -108,6 +115,7 @@ public class UserServiceImpl implements UserService{
 	    }
 	    Collection<? extends GrantedAuthority> authorities = Arrays.asList(new SimpleGrantedAuthority(user.getRol().getRol()));
 	    User usr = new User(user.getCorreo(), user.getPassword(), authorities);
+	    System.out.println("usuario: "+usr.getUsername()+" - "+usr.getPassword());
 	    return usr;
 	}
 

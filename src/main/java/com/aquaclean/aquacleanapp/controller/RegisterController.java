@@ -11,6 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.aquaclean.aquacleanapp.model.Usuario;
+import com.aquaclean.aquacleanapp.model.UsuarioDetalles;
 import com.aquaclean.aquacleanapp.service.UserService;
 
 @Controller
@@ -26,7 +27,7 @@ public class RegisterController {
 	}
 	
 	@PostMapping("/register-user")
-	public String saveUser(@Validated @ModelAttribute("user") Usuario usuario, BindingResult result,RedirectAttributes redirectAttributes) {
+	public String saveUser(@Validated @ModelAttribute("user") UsuarioDetalles usuario, BindingResult result,RedirectAttributes redirectAttributes) {
 		if (isAnyFieldEmpty(usuario)) {
 			String firstEmptyField = getFirstEmptyField(usuario);	
 			redirectAttributes.addFlashAttribute("errorfield", "Complete el campo " + firstEmptyField);
@@ -43,7 +44,7 @@ public class RegisterController {
 		return "redirect:/login";
 	}
 	
-	private boolean isAnyFieldEmpty(Usuario usuario) {
+	private boolean isAnyFieldEmpty(UsuarioDetalles usuario) {
 		return 
 				usuario.getNombre().isEmpty()
 				|| usuario.getApellido().isEmpty()
@@ -53,7 +54,7 @@ public class RegisterController {
 				|| usuario.getPassword().isEmpty();
 	}
 	
-	private String getFirstEmptyField(Usuario usuario) {
+	private String getFirstEmptyField(UsuarioDetalles usuario) {
 		if (usuario.getNombre().isEmpty()) {
 			return "nombre";
 		} else if (usuario.getApellido().isEmpty()) {

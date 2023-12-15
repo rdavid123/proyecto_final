@@ -22,6 +22,7 @@ import com.aquaclean.aquacleanapp.model.Prendas;
 import com.aquaclean.aquacleanapp.model.StripePaymentRequest;
 import com.aquaclean.aquacleanapp.model.Usuario;
 import com.aquaclean.aquacleanapp.model.UsuarioDetalles;
+import com.aquaclean.aquacleanapp.service.OfertaService;
 import com.aquaclean.aquacleanapp.service.PedidoService;
 import com.aquaclean.aquacleanapp.service.ServicioService;
 import com.aquaclean.aquacleanapp.service.UserService;
@@ -36,6 +37,9 @@ public class ClienteController {
 	private PedidoService pedidoService;
 	@Autowired
 	private ServicioService servicioService;
+	@Autowired
+	private OfertaService ofertaService;
+	
 	@Value("${stripe.api.publicKey}")
     private String publicKey;
 	
@@ -171,5 +175,15 @@ public class ClienteController {
 		model.addAttribute("user", getUserAuthenticated(authentication));
 		model.addAttribute("title", "Pedidos");
 		return "cliente/pedidos.html";
+	}
+	
+	@GetMapping("/clientes/ofertas")
+	public String ofertas(Model model, Authentication authentication,
+			@RequestParam(name = "tipo", required = false) String tipo) {
+		model.addAttribute("user", getUserAuthenticated(authentication));
+		model.addAttribute("title", "Inicio");
+		model.addAttribute("ofertas", ofertaService.findAllOfertas());
+		
+		return "cliente/ofertas.html";
 	}
 }

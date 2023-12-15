@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="cliente/layout_cliente :: head">
+</head>
+
+<body>
+	<div th:replace="cliente/layout_cliente :: navbar"></div>
+	<section>
+		<div class="notification show-notification" th:if="${mensaje}" style="background-color: #36d300;">
+			<span th:text="${mensaje}"></span>
+			<span class="close-icon" onclick="closeNotification()">
+				<i class="fas fa-times-circle"></i>
+			</span>
+		</div>
+
+		<!-- Peso exacto-->
+		
+		<div class="row">
+			<h2>Ofertas</h2>
+			<div class="col-12 col-md-6 col-xl-4" th:each="of : ${ofertas}">
+				<div class="card">
+					<img th:src="${of.place_image}" alt="">
+					<div class="card-body">
+						<h3 th:text="${of.titulo}"></h3>
+						<p th:text="${of.descripcion}"></p>
+						<p th:text="'S/'+${of.precio}"</p>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+
+
+	</section>
+	<div th:replace="cliente/layout_cliente :: footer"></div>
+</body>
+</html>

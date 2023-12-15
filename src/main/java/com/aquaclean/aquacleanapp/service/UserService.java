@@ -15,8 +15,9 @@ public interface UserService extends UserDetailsService{
 	public List<Usuario> findAllRepartidores();
 	public List<Usuario> findAllRepartidoresDisponibles();
 	
-	public void registerCliente(Usuario usu);
-	public void registerAdmin(Usuario usu);
+	public void registerCliente(UsuarioDetalles usu);
+	public void registerAdmin(UsuarioDetalles usu);
+	public void registerEmpleado(UsuarioDetalles usu);
 	
 	public UsuarioDetalles findUserByEmail(String email);
 	public Usuario findUserById(Long id);

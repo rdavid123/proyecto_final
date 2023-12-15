@@ -30,9 +30,21 @@ public class RoleServiceImpl implements RoleService{
 
 	@Override
 	public Role getRoleEmpleado() {
-		ResponseEntity<Role> response = restTemplate.exchange(api_url+"/roles/1/", HttpMethod.GET, null, Role.class);
+		ResponseEntity<Role> response = restTemplate.exchange(api_url+"/roles/3/", HttpMethod.GET, null, Role.class);
 		if(response.getStatusCode() == HttpStatus.OK) {
 			System.out.println("Rol encontrado: Empleado");
+		}else {
+			System.out.println("Rol No encontrados");
+		}
+		Role rol = response.getBody();
+		return rol;
+	}
+
+	@Override
+	public Role getRoleAdmin() {
+		ResponseEntity<Role> response = restTemplate.exchange(api_url+"/roles/1/", HttpMethod.GET, null, Role.class);
+		if(response.getStatusCode() == HttpStatus.OK) {
+			System.out.println("Rol encontrado: admin");
 		}else {
 			System.out.println("Rol No encontrados");
 		}

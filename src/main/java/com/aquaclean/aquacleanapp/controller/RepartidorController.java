@@ -2,6 +2,7 @@ package com.aquaclean.aquacleanapp.controller;
 
 import org.springframework.security.core.Authentication;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.aquaclean.aquacleanapp.model.Pedido;
 import com.aquaclean.aquacleanapp.model.PedidoDetalles;
 import com.aquaclean.aquacleanapp.model.Usuario;
+import com.aquaclean.aquacleanapp.model.UsuarioDetalles;
 import com.aquaclean.aquacleanapp.service.PedidoService;
 import com.aquaclean.aquacleanapp.service.UserService;
 
@@ -37,8 +39,12 @@ public class RepartidorController {
 		model.addAttribute("title", "repartidor");
 		model.addAttribute("user", getUserAuthenticated(authentication));
 		model.addAttribute("pedidos", pedidoService.findAll().stream()
-				.filter(p -> p.getRepartidor().getId() == getUserAuthenticated(authentication).getId() && p.getEstado().equals("proceso_terminado"))
-				.collect(Collectors.toList()));
+			    .filter(p -> {
+			        UsuarioDetalles repartidor = p.getRepartidor();
+			        return repartidor != null && repartidor.getId() == getUserAuthenticated(authentication).getId() && "proceso_terminado".equals(p.getEstado());
+			    })
+			    .collect(Collectors.toList()));
+
 		return "repartidor/inicio.html";
 	}
 	
@@ -47,10 +53,10 @@ public class RepartidorController {
 		model.addAttribute("title", "pendientes");
 		model.addAttribute("user", getUserAuthenticated(authentication));
 		
-		List<PedidoDetalles> pedidos_pendientes = pedidoService.findAll().stream()
-				.filter(p -> p.getRepartidor().getId() == getUserAuthenticated(authentication).getId() && p.getEstado().equals("en_camino"))
-				.collect(Collectors.toList());
-				model.addAttribute("pendientes", pedidos_pendientes);
+		List<PedidoDetalles> pedidos = pedidoService.findAllByIdRepartidor(getUserAuthenticated(authentication).getId()).stream()
+				.filter(p->p.getEstado().equals("en_camino")).collect(Collectors.toList());
+		
+		model.addAttribute("pendientes", pedidos);
 		return "repartidor/pendientes.html";
 	}
 	
@@ -58,9 +64,9 @@ public class RepartidorController {
 	public String completados(Model model, Authentication authentication) {
 		model.addAttribute("user", getUserAuthenticated(authentication));
 		model.addAttribute("title", "completados");
-		model.addAttribute("pedidos", pedidoService.findAllByIdRepartidor(getUserAuthenticated(authentication).getId()).stream()
-				.filter(p->p.getEstado()
-						.equals("finalizado")).collect(Collectors.toList()));
+		List<PedidoDetalles> pedidos = pedidoService.findAllByIdRepartidor(getUserAuthenticated(authentication).getId()).stream()
+				.filter(p->p.getEstado().equals("finalizado")).collect(Collectors.toList());
+		model.addAttribute("pedidos", pedidos);
 		return "repartidor/completados.html";
 	}
 	

@@ -1,5 +1,6 @@
 package com.aquaclean.aquacleanapp.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collector;
@@ -88,8 +89,16 @@ public class PedidoServiceImpl implements PedidoService{
 
 	@Override
 	public List<PedidoDetalles> findAllByIdRepartidor(Long id) {
-		PedidoDetalles[] array = restTemplate.getForObject(api_url+"/pedidosdetail/", PedidoDetalles[].class);
-		return Arrays.asList(array).stream().filter(p->p.getRepartidor().getId()==id).collect(Collectors.toList());
+		//PedidoDetalles[] array = restTemplate.getForObject(api_url+"/pedidosdetail/", PedidoDetalles[].class);
+		List<PedidoDetalles> pedidosFinalizados = new ArrayList<PedidoDetalles>();
+		for(PedidoDetalles p : findAll()) {
+			if(p.getRepartidor() != null) {
+				if(p.getRepartidor().getId() == id) {
+					pedidosFinalizados.add(p);
+				}
+			}
+		}
+		return pedidosFinalizados;
 	
 	}
 

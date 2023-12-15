@@ -20,6 +20,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -33,32 +35,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Autowired
 	private UserService userService;
 	
-	@Bean
-	public BCryptPasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-	
-	@Bean
-	public DaoAuthenticationProvider authenticationProvider() {
-		DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
-		auth.setUserDetailsService(userService);
-		auth.setPasswordEncoder(passwordEncoder());
-		return auth;
-	}
-
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.authenticationProvider(authenticationProvider());
-	}
 
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+        
             .antMatchers("/aquaclean/clientes/**").hasRole("CLIENTE")
             .antMatchers("/aquaclean/empleados/**").hasRole("EMPLEADO")
             .antMatchers("/aquaclean/admin/**").hasRole("ADMIN")
             .antMatchers("/aquaclean/repartidor/**").hasRole("REPARTIDOR")
             .antMatchers("/","/js/**", "/css/**", "/img/**").permitAll()
+            
+        	.antMatchers("/aquaclean/**").permitAll()
             .antMatchers("/create-payment-intent").permitAll()
             .antMatchers("/register","/login").permitAll()
             .anyRequest().permitAll()

@@ -43,11 +43,11 @@
 		<div class="forms-container">
 			<div class="form-signin">
 				<!-- login-->
-				<form th:action="@{/login}" method="post">
+				<form th:action="@{/authenticate}" th:method="post" th:object="${usuario}">
 					<h2 class="title">Bienvenido</h2>
 					<div class="input-field">
 						<i class="fas fa-envelope"></i>
-						<input type="text" placeholder="correo" name="username" />
+						<input type="text" placeholder="correo" name="correo" />
 					</div>
 					<div class="input-field-pass">
 						<i class="fas fa-lock"></i>
